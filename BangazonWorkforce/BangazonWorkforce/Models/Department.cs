@@ -1,11 +1,4 @@
-<<<<<<< HEAD
-﻿namespace BangazonWorkforce.Models
-{
-    public class Department
-    {
-    }
-}
-=======
+
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,4 +13,3 @@ namespace BangazonWorkforce.Models
         public List<Employee> employees { get; set; }
     }
 }
->>>>>>> master
