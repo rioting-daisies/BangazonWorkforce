@@ -13,35 +13,91 @@ The purpose of the Details View is to show the details of a specific employee. T
     <h4>Employee</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Employee.Id)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Employee.Id)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Employee.FirstName)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Employee.FirstName)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Employee.LastName)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Employee.LastName)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Employee.IsSupervisor)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Employee.IsSupervisor)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Employee.DepartmentId)
+        @*<dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Department.Id)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Department)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Computer.Id)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Computer)
+            </dd>*@
+    </dl>
+    <h4>Employee Department</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Department.Id)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Employee.DepartmentId)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Department.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Department.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Department.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Department.Budget)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Department.Budget)
+        </dd>
+    </dl>
+    <h4>Employee Computer</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Computer.Id)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Computer.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Computer.Manufacturer)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Computer.Manufacturer)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Computer.Make)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Computer.Make)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Computer.PurchaseDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Computer.PurchaseDate)
         </dd>
     </dl>
 </div>

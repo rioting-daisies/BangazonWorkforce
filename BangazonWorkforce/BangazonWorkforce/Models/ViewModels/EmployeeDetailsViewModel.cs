@@ -90,7 +90,7 @@ namespace BangazonWorkforce.Models.ViewModels
                                             c.Make,
                                             c.Manufacturer,
                                             c.PurchaseDate,
-                                            c.DecommissionDate,
+                                            c.DecomissionDate,
                                             ce.AssignDate,
                                             ce.UnassignDate
                                         FROM Computer c 
@@ -112,8 +112,8 @@ namespace BangazonWorkforce.Models.ViewModels
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
                             Manufacturer = reader.GetString(reader.GetOrdinal("Manufacturer")),
                             Make = reader.GetString(reader.GetOrdinal("Make")),
-                            PurchaseDate = reader.GetDateTime(reader.GetOrdinal("PurchaseDate")),
-                            DecomissionDate = reader.GetDateTime(reader.GetOrdinal("DecomissionDate"))
+                            PurchaseDate = reader.GetDateTime(reader.GetOrdinal("PurchaseDate"))
+                            //DecomissionDate = reader.GetDateTime(reader.GetOrdinal("DecomissionDate"))
                         };
                     }
 
