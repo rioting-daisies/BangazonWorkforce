@@ -10,5 +10,6 @@ namespace BangazonWorkforce.Models.ViewModels
 {
     public class EmployeeDetailsViewModel
     {
+        public Employee Employee { get; set; }
     }
 }
