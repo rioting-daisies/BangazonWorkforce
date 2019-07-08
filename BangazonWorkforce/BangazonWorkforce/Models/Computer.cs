@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Author: Chris Morgan
+// The purpose of the Computer Model is to represent a Computer object from the database
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
