@@ -10,17 +10,17 @@ namespace BangazonWorkforce.Models
     {
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "You must provide a purchase date for this computer.")]
         [Display(Name = "Purchase Date")]
         public DateTime PurchaseDate { get; set; }
 
         [Display(Name = "Decomission Date")]
         public DateTime DecomissionDate { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "You must provide the Make/Model of this computer.")]
         public string Make { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "You must provide the Manufacturer of this computer.")]
         public string Manufacturer { get; set; }
     }
 }
