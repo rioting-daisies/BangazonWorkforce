@@ -37,18 +37,6 @@ The purpose of the Details View is to show the details of a specific employee. T
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Employee.IsSupervisor)
         </dd>
-        @*<dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Department.Id)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Department)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Computer.Id)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Computer)
-            </dd>*@
     </dl>
     <h4>Employee Department</h4>
     <hr />
@@ -99,6 +87,45 @@ The purpose of the Details View is to show the details of a specific employee. T
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Computer.PurchaseDate)
         </dd>
+    </dl>
+    <h4>Training Programs Attended</h4>
+    <hr />
+    <dl class="row">
+
+        @foreach (var trainingProgram in Model.TrainingPrograms)
+        {
+
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => trainingProgram.Id)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => trainingProgram.Id)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => trainingProgram.Name)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => trainingProgram.Name)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => trainingProgram.StartDate)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => trainingProgram.StartDate)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => trainingProgram.EndDate)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => trainingProgram.EndDate)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => trainingProgram.MaxAttendees)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => trainingProgram.MaxAttendees)
+            </dd>
+        }
     </dl>
 </div>
 <div>
