@@ -48,7 +48,7 @@ namespace BangazonWorkforce.Controllers
                             Manufacturer = reader.GetString(reader.GetOrdinal("Manufacturer")),
                             Make = reader.GetString(reader.GetOrdinal("Make")),
                             PurchaseDate = reader.GetDateTime(reader.GetOrdinal("PurchaseDate"))
-                        };
+                    };
 
                         if (!reader.IsDBNull(reader.GetOrdinal("DecomissionDate")))
                         {

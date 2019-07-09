@@ -18,7 +18,7 @@ namespace BangazonWorkforce.Models
         [DataType(DataType.Date)]
         public DateTime PurchaseDate { get; set; }
 
-        [Display(Name = "Decommission Date", AutoGenerateField =false)]
+        [Display(Name = "Decommission Date")]
         [DataType(DataType.Date)]
         public DateTime? DecomissionDate { get; set; }
 
