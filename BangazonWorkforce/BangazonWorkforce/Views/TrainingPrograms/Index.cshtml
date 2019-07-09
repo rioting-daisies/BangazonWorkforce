@@ -9,6 +9,9 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<p>
+    <a asp-action="PastTrainingProgramsIndex">Past Training Programs</a>
+</p>
 <table class="table">
     <thead>
         <tr>
@@ -55,8 +58,7 @@
                 @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                 
             </td>
-            <td><a asp-action="PastTrainingProgramsIndex">Past Training Programs</a>
-            </td>
+            
         </tr>
 }
     </tbody>
