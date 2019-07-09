@@ -36,7 +36,7 @@ namespace BangazonWorkforce.Controllers
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT d.Id, d.Name AS DepartmentName, d.Budget AS Budget, 
+                    cmd.CommandText = @"SELECT d.Id, d.Name AS DepartmentName, d.Budget AS Budget,
                                         COUNT(e.Id) AS EmployeeId
                                         FROM Department d 
                                         LEFT JOIN Employee e on d.Id = e.DepartmentId
@@ -58,9 +58,9 @@ namespace BangazonWorkforce.Controllers
                     reader.Close();
 
                     return View(departments);
-                } 
+                }
             }
-         
+
         }
 
         // GET: Department/Details/5
