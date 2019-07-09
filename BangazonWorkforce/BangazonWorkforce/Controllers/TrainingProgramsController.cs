@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Author: Chris Morgan
+// The purpose of the TrainingProgramsController is to hold all of the methods that deal with the TrainingProgram database actions / CRUD functionality within the application
+
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -12,6 +15,7 @@ namespace BangazonWorkforce.Controllers
 {
     public class TrainingProgramsController : Controller
     {
+        // Establish connection properties to connect to the BangazonAPI
         private readonly IConfiguration _config;
 
         public TrainingProgramsController(IConfiguration config)
@@ -26,6 +30,8 @@ namespace BangazonWorkforce.Controllers
                 return new SqlConnection(_config.GetConnectionString("DefaultConnection"));
             }
         }
+
+        // The index() method is a GetAllTrainingDepartments method. It only returns training departments that haven't started yet. The result is passed into the Index view for Employees
         // GET: TrainingPrograms
         public ActionResult Index()
         {
@@ -75,12 +81,14 @@ namespace BangazonWorkforce.Controllers
             return View();
         }
 
+        // This is the initial get for the create functionality and builds the form
         // GET: TrainingPrograms/Create
         public ActionResult Create()
         {
             return View();
         }
 
+        // This makes a post to the TrainingProgram table in the BangazonAPI database
         // POST: TrainingPrograms/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
