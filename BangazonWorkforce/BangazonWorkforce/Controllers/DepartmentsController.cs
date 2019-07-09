@@ -1,4 +1,6 @@
-﻿using System;
+﻿//Author Clifton Matuszewski
+
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -28,7 +30,8 @@ namespace BangazonWorkforce.Controllers
                 return new SqlConnection(_config.GetConnectionString("DefaultConnection"));
             }
         }
-        // GET: Departments
+        // The GET Method for getting all of the departments is used to display all of the departments Names budgets as well as a count of the total employees in the department
+        // GET: Department
         public ActionResult Index()
         {
             using (SqlConnection conn = Connection)
@@ -62,11 +65,17 @@ namespace BangazonWorkforce.Controllers
             }
 
         }
-
-        // GET: Departments/Details/5
+        //
+        // GET: Department/Details/5
         public ActionResult Details(int id)
-        {
-            return View();
+           {
+            DepartmentEmployeesViewModel viewModel = new DepartmentEmployeesViewModel(id, _config.GetConnectionString("DefaultConnection"));
+
+            Department department = GetDepartmentById(id);
+
+            viewModel.department = department;
+
+            return View(viewModel);
         }
 
         // GET: Departments/Create
