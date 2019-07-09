@@ -70,7 +70,7 @@ namespace BangazonWorkforce.Models.ViewModels
                                         e.FirstName, 
                                         e.LastName, d.Name 
                                         FROM Employee e JOIN Department d ON d.Id = e.DepartmentId
-                                        WHERE e.Id = @id
+                                        WHERE e.DepartmentId = @id
                                         ";
                     cmd.Parameters.Add(new SqlParameter("@id", id));
                     SqlDataReader reader = cmd.ExecuteReader();
