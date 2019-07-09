@@ -1,4 +1,4 @@
-﻿// Author: Chris Morgan
+﻿// Author: Chris Morgan and Clifton Matuszewski
 // The purpose of the TrainingProgramsController is to hold all of the methods that deal with the TrainingProgram database actions / CRUD functionality within the application
 
 using System;
@@ -207,6 +207,49 @@ namespace BangazonWorkforce.Controllers
             {
                 return View();
             }
+        }
+        // The index() method is a GetAllTrainingDepartments method. It only returns training departments that haven't started yet. The result is passed into the Index view for Employees
+        // GET: TrainingPrograms
+        public ActionResult PastTrainingProgramsIndex()
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT
+                                            t.Id,
+                                            t.Name,
+                                            t.StartDate,
+                                            t.EndDate,
+                                            t.MaxAttendees
+                                        FROM TrainingProgram t
+                                        WHERE t.StartDate < GetDate()";
+
+                    List<TrainingProgram> trainingPrograms = new List<TrainingProgram>();
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        TrainingProgram trainingProgram = new TrainingProgram
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Name = reader.GetString(reader.GetOrdinal("Name")),
+                            StartDate = reader.GetDateTime(reader.GetOrdinal("StartDate")),
+                            EndDate = reader.GetDateTime(reader.GetOrdinal("EndDate")),
+                            MaxAttendees = reader.GetInt32(reader.GetOrdinal("MaxAttendees"))
+                        };
+
+                        trainingPrograms.Add(trainingProgram);
+                    }
+
+                    return View(trainingPrograms);
+
+                }
+            }
+
         }
 
         private TrainingProgram GetTrainingProgramById(int id)
