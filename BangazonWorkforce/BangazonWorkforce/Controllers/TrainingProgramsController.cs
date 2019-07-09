@@ -96,6 +96,26 @@ namespace BangazonWorkforce.Controllers
 
         }
 
+        // GET: TrainingPrograms/Details/5
+        public ActionResult PastDetails(int id)
+        {
+            TrainingProgram trainingProgram = GetPastTrainingProgram(id);
+
+            if (trainingProgram == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                TrainingProgramDetailsViewModel viewModel = new TrainingProgramDetailsViewModel(id, _config.GetConnectionString("DefaultConnection"));
+
+                viewModel.TrainingProgram = trainingProgram;
+
+                return View(viewModel);
+            }
+
+        }
+
         // This is the initial get for the create functionality and builds the form
         // GET: TrainingPrograms/Create
         public ActionResult Create()
@@ -286,6 +306,49 @@ namespace BangazonWorkforce.Controllers
                             EndDate = reader.GetDateTime(reader.GetOrdinal("EndDate")),
                             MaxAttendees = reader.GetInt32(reader.GetOrdinal("MaxAttendees"))
                         };  
+                    }
+
+                    reader.Close();
+
+                    return trainingProgram;
+
+                }
+            }
+        }
+        private TrainingProgram GetPastTrainingProgram(int id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT
+                                            t.Id,
+                                            t.Name,
+                                            t.StartDate,
+                                            t.EndDate,
+                                            t.MaxAttendees
+                                        FROM TrainingProgram t
+                                        WHERE t.StartDate < GetDate()
+                                        AND t.Id = @id";
+
+                    cmd.Parameters.Add(new SqlParameter("@id", id));
+
+                    TrainingProgram trainingProgram = null;
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        trainingProgram = new TrainingProgram
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Name = reader.GetString(reader.GetOrdinal("Name")),
+                            StartDate = reader.GetDateTime(reader.GetOrdinal("StartDate")),
+                            EndDate = reader.GetDateTime(reader.GetOrdinal("EndDate")),
+                            MaxAttendees = reader.GetInt32(reader.GetOrdinal("MaxAttendees"))
+                        };
                     }
 
                     reader.Close();
