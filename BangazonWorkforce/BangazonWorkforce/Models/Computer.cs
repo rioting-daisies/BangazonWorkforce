@@ -28,5 +28,6 @@ namespace BangazonWorkforce.Models
         [Required(ErrorMessage = "You must provide the Manufacturer of this computer.")]
         public string Manufacturer { get; set; }
 
+        public bool NeverBeenAssigned { get; set; }
     }
 }
