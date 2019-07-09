@@ -1,4 +1,6 @@
-﻿using System;
+﻿//Author Clifton Matuszewski
+
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -12,11 +14,11 @@ using Microsoft.Extensions.Configuration;
 
 namespace BangazonWorkforce.Controllers
 {
-    public class DepartmentController : Controller
+    public class DepartmentsController : Controller
     {
         private readonly IConfiguration _config;
 
-        public DepartmentController(IConfiguration config)
+        public DepartmentsController(IConfiguration config)
         {
             _config = config;
         }
@@ -76,7 +78,7 @@ namespace BangazonWorkforce.Controllers
             return View(viewModel);
         }
 
-        // GET: Department/Create
+        // GET: Departments/Create
         public ActionResult Create()
         {
             return View();
@@ -112,13 +114,13 @@ namespace BangazonWorkforce.Controllers
             }
         }
 
-        // GET: Department/Edit/5
+        // GET: Departments/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: Department/Edit/5
+        // POST: Departments/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -135,13 +137,13 @@ namespace BangazonWorkforce.Controllers
             }
         }
 
-        // GET: Department/Delete/5
+        // GET: Departments/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: Department/Delete/5
+        // POST: Departments/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)

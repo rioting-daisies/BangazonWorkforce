@@ -25,7 +25,7 @@ namespace BangazonWorkforce.Models.ViewModels
         {
             _connectionString = connectionString;
             GetDepartmentById(id);
-            GetDepartmentEmployees();
+            GetDepartmentEmployees(id);
 
         }
 
@@ -59,7 +59,7 @@ namespace BangazonWorkforce.Models.ViewModels
             }
         }
 
-        private void GetDepartmentEmployees()
+        private void GetDepartmentEmployees(int id)
         {
             using (SqlConnection conn = Connection)
             {
@@ -70,8 +70,9 @@ namespace BangazonWorkforce.Models.ViewModels
                                         e.FirstName, 
                                         e.LastName, d.Name 
                                         FROM Employee e JOIN Department d ON d.Id = e.DepartmentId
+                                        WHERE e.DepartmentId = @id
                                         ";
-                 
+                    cmd.Parameters.Add(new SqlParameter("@id", id));
                     SqlDataReader reader = cmd.ExecuteReader();
                     
                         employees = new List<Employee>();
