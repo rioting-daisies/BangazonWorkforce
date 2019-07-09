@@ -23,10 +23,13 @@ namespace BangazonWorkforce.Models.ViewModels
             }
         }
 
+        // The Employees property represents a List of employees who are currently signed up for the training program.
         public List<Employee> Employees { get; set; }
 
+        // Training program property in order to access training program properties for the view
         public TrainingProgram TrainingProgram { get; set; }
 
+        // Constructor method that assigns the Employees property of the viewModel and sets the _connectionString property with the connectionString parameter. The first parameter is the TrainingProgramId, which is used to call the GetEmployeesInProgram method to set the Employees property.
         public TrainingProgramDetailsViewModel(int id, string connectionString)
         {
             _connectionString = connectionString;
@@ -34,7 +37,7 @@ namespace BangazonWorkforce.Models.ViewModels
             Employees = GetEmployeesInProgram(id);
 
         }
-
+        // The GetEmployeesInProgram private method is used to grab all the employees that are in the training program and return a List<Employee>. It accepts one parameter: the TrainingProgramId
         private List<Employee> GetEmployeesInProgram(int id)
         {
             using(SqlConnection conn = Connection)
