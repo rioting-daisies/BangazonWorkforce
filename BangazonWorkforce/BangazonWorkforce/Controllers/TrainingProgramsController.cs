@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using BangazonWorkforce.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -42,9 +43,30 @@ namespace BangazonWorkforce.Controllers
                                             t.MaxAttendees
                                         FROM TrainingProgram t
                                         WHERE t.StartDate > GetDate()";
+
+                    List<TrainingProgram> trainingPrograms = new List<TrainingProgram>();
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        TrainingProgram trainingProgram = new TrainingProgram
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Name = reader.GetString(reader.GetOrdinal("Name")),
+                            StartDate = reader.GetDateTime(reader.GetOrdinal("StartDate")),
+                            EndDate = reader.GetDateTime(reader.GetOrdinal("EndDate")),
+                            MaxAttendees = reader.GetInt32(reader.GetOrdinal("MaxAttendees"))
+                        };
+
+                        trainingPrograms.Add(trainingProgram);
+                    }
+
+                    return View(trainingPrograms);
+
                 }
             }
-        }   return View();
+           
         }
 
         // GET: TrainingPrograms/Details/5
