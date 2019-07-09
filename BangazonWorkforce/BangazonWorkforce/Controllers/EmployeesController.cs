@@ -128,6 +128,11 @@ namespace BangazonWorkforce.Controllers
             }
         }
 
+        public ActionResult AssignTrainingProgram(int id)
+        {
+
+        }
+
         // GET: Employees/Edit/5
         public ActionResult Edit(int id)
         {
