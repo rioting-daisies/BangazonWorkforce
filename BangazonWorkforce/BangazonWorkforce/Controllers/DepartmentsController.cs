@@ -78,13 +78,26 @@ namespace BangazonWorkforce.Controllers
         // POST: Department/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(Department department)
         {
             try
             {
                 // TODO: Add insert logic here
+                using (SqlConnection conn = Connection)
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = @"INSERT INTO Department (Name) VALUES (@Name)";
+                        cmd.Parameters.Add(new SqlParameter("@Name", department.Name));
 
-                return RedirectToAction(nameof(Index));
+                        await cmd.ExecuteNonQueryAsync();
+
+                        return RedirectToAction(nameof(Index));
+                    }
+                }
+
+                
             }
             catch
             {
