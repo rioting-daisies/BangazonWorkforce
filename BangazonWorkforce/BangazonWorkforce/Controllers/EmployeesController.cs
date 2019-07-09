@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Author: Brian Jobe, Chris Morgan, Josh Hibray
+
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -84,25 +86,41 @@ namespace BangazonWorkforce.Controllers
 
                 return View(viewModel);
 
-
         }
 
         // GET: Employees/Create
         public ActionResult Create()
         {
-            return View();
+            EmployeeCreateViewModel employeeCreateViewModel = new EmployeeCreateViewModel(_config.GetConnectionString("DefaultConnection"));
+
+            return View(employeeCreateViewModel);
         }
 
         // POST: Employees/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(EmployeeCreateViewModel model)
         {
             try
             {
-                // TODO: Add insert logic here
+                using (SqlConnection conn = Connection)
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = @"INSERT INTO Employee
+                                               (FirstName, LastName, IsSuperVisor, DepartmentId)
+                                                VALUES
+                                                (@firstName, @lastName, @isSuperVisor, @departmentId)";
+                        cmd.Parameters.Add(new SqlParameter("@firstName", model.Employee.FirstName));
+                        cmd.Parameters.Add(new SqlParameter("@lastName", model.Employee.LastName));
+                        cmd.Parameters.Add(new SqlParameter("@isSupervisor", model.Employee.IsSupervisor));
+                        cmd.Parameters.Add(new SqlParameter("@departmentId", model.Employee.DepartmentId));
+                        await cmd.ExecuteNonQueryAsync();
 
-                return RedirectToAction(nameof(Index));
+                        return RedirectToAction(nameof(Index));
+                    }
+                }
             }
             catch
             {

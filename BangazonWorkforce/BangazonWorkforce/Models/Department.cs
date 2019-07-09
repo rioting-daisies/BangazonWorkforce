@@ -18,6 +18,7 @@ namespace BangazonWorkforce.Models
         [Range(0, int.MaxValue, ErrorMessage = "A budget cannot be less than zero.")]
 
         public int Budget { get; set; }
+        public int EmployeeCount { get; set; }
 
     }
 }
