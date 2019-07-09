@@ -17,7 +17,7 @@ namespace BangazonWorkforce.Models
         [Display(Name = "Purchase Date")]
         public DateTime PurchaseDate { get; set; }
 
-        [Display(Name = "Decomission Date")]
+        [Display(Name = "Decommission Date")]
         public DateTime DecomissionDate { get; set; }
 
         [Required(ErrorMessage = "You must provide the Make/Model of this computer.")]
