@@ -33,7 +33,7 @@ namespace BangazonWorkforce.Controllers
             }
         }
         // GET: Computers
-        public ActionResult Index()
+        public ActionResult Index(string searchString)
         {
             using (SqlConnection conn = Connection)
             {
@@ -63,6 +63,12 @@ namespace BangazonWorkforce.Controllers
                         computers.Add(computer);
                     }
                     reader.Close();
+
+                    if (!String.IsNullOrEmpty(searchString))
+                    {
+                        computers = computers.Where(s => s.Make.Contains(searchString) || s.Manufacturer.Contains(searchString)).ToList();
+                    }
+
                     return View(computers);
                 }
             }
