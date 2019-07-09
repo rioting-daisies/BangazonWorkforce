@@ -1,18 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace BangazonWorkforce.Controllers
 {
     public class TrainingProgramsController : Controller
     {
+        private readonly IConfiguration _config;
+
+        public TrainingProgramsController(IConfiguration config)
+        {
+            _config = config;
+        }
+
+        public SqlConnection Connection
+        {
+            get
+            {
+                return new SqlConnection(_config.GetConnectionString("DefaultConnection"));
+            }
+        }
         // GET: TrainingPrograms
         public ActionResult Index()
         {
-            return View();
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT
+                                            t.Id,
+                                            t.Name,
+                                            t.StartDate,
+                                            t.EndDate,
+                                            t.MaxAttendees
+                                        FROM TrainingProgram t
+                                        WHERE t.StartDate > GetDate()";
+                }
+            }
+        }   return View();
         }
 
         // GET: TrainingPrograms/Details/5
