@@ -36,13 +36,16 @@ namespace BangazonWorkforce.Controllers
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-            SELECT s.Id,
-                s.FirstName,
-                s.LastName,
-                s.DepartmentId,
-                s.IsSuperVisor
-            FROM Employee s
-        ";
+                SELECT e.Id,
+                e.FirstName,
+                e.LastName,
+                de.Name,
+                e.IsSuperVisor
+                FROM Employee e
+             JOIN Department de on e.DepartmentId = de.Id
+            ";
+
+
                     SqlDataReader reader = cmd.ExecuteReader();
 
                     List<Employee> employees = new List<Employee>();
@@ -53,7 +56,7 @@ namespace BangazonWorkforce.Controllers
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
                             FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
                             LastName = reader.GetString(reader.GetOrdinal("LastName")),
-                            DepartmentId = reader.GetInt32(reader.GetOrdinal("DepartmentId")),
+                            DepartmentName = reader.GetString(reader.GetOrdinal("Name")),
                             IsSupervisor = reader.GetBoolean(reader.GetOrdinal("IsSuperVisor"))
                         };
 
