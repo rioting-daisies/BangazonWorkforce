@@ -65,8 +65,14 @@ namespace BangazonWorkforce.Controllers
 
         // GET: Department/Details/5
         public ActionResult Details(int id)
-        {
-            return View();
+           {
+            DepartmentEmployeesViewModel viewModel = new DepartmentEmployeesViewModel(id, _config.GetConnectionString("DefaultConnection"));
+
+            Department department = GetDepartmentById(id);
+
+            viewModel.department = department;
+
+            return View(viewModel);
         }
 
         // GET: Department/Create
