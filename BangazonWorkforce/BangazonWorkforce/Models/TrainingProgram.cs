@@ -15,10 +15,12 @@ namespace BangazonWorkforce.Models
         [Required(ErrorMessage = "You must provide a name for this training program.")]
         public string Name { get; set; }
 
+        [DataType(DataType.Date)]
         [Required(ErrorMessage = "You must provide a start date for this training program.")]
         [Display(Name = "Start Date")]
         public DateTime StartDate { get; set; }
 
+        [DataType(DataType.Date)]
         [Required(ErrorMessage = "You must provide a end date for this training program.")]
         [Display(Name = "End Date")]
         public DateTime EndDate { get; set; }
