@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using BangazonWorkforce.Models;
+using BangazonWorkforce.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -86,7 +87,11 @@ namespace BangazonWorkforce.Controllers
             }
             else
             {
-                return View(trainingProgram);
+                TrainingProgramDetailsViewModel viewModel = new TrainingProgramDetailsViewModel(id, _config.GetConnectionString("DefaultConnection"));
+
+                viewModel.TrainingProgram = trainingProgram;
+
+                return View(viewModel);
             }
 
         }

@@ -27,8 +27,11 @@ namespace BangazonWorkforce.Models.ViewModels
 
         public TrainingProgram TrainingProgram { get; set; }
 
-        public TrainingProgramDetailsViewModel(int i, string connectionString)
+        public TrainingProgramDetailsViewModel(int id, string connectionString)
         {
+            _connectionString = connectionString;
+
+            Employees = GetEmployeesInProgram(id);
 
         }
 
