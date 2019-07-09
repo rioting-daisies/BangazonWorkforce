@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿// Author: Brian Jobe
+// The purpose of the EmployeeCreateViewModel is to hold the required properties that will be passed down to the Create new employee view. The view needs to contain the list of departments.
+
+
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
