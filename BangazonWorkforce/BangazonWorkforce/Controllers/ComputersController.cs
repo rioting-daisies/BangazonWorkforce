@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*Author: Brian Jobe
+* This controller allows the user to view all computers in the database, view details of each computer,
+* create a new computer, and delete a computer if
+it has not been used */
+
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -40,7 +45,7 @@ namespace BangazonWorkforce.Controllers
                     SqlDataReader reader = cmd.ExecuteReader();
 
                     List<Computer> computers = new List<Computer>();
-                    while(reader.Read())
+                    while (reader.Read())
                     {
                         Computer computer = new Computer
                         {
@@ -48,7 +53,7 @@ namespace BangazonWorkforce.Controllers
                             Manufacturer = reader.GetString(reader.GetOrdinal("Manufacturer")),
                             Make = reader.GetString(reader.GetOrdinal("Make")),
                             PurchaseDate = reader.GetDateTime(reader.GetOrdinal("PurchaseDate"))
-                    };
+                        };
 
                         if (!reader.IsDBNull(reader.GetOrdinal("DecomissionDate")))
                         {
@@ -63,7 +68,7 @@ namespace BangazonWorkforce.Controllers
             }
 
         }
-
+        //This method pulls in the details for individual computers. It uses a join table with ComputerEmployee to check whether the computer has ever been assigned. 
         // GET: Computers/Details/5
         public ActionResult Details(int id)
         {
@@ -73,7 +78,9 @@ namespace BangazonWorkforce.Controllers
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                                      SELECT c.Id, c.Make, c.Manufacturer, c.PurchaseDate, c.DecomissionDate, ce.ComputerId, ce.AssignDate
+                                      SELECT c.Id, c.Make, c.Manufacturer, 
+                                            c.PurchaseDate, c.DecomissionDate, 
+                                            ce.ComputerId, ce.AssignDate
                                         FROM Computer c 
                                         LEFT JOIN ComputerEmployee ce on c.Id = ce.ComputerId 
                                         WHERE c.Id = @id";
@@ -146,29 +153,6 @@ namespace BangazonWorkforce.Controllers
             }
         }
 
-        // GET: Computers/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Computers/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
         // GET: Computers/Delete/5
         public ActionResult Delete(int id)
         {
@@ -182,7 +166,7 @@ namespace BangazonWorkforce.Controllers
                 return NotFound();
             }
         }
-
+        // This method uses a Left Join and a Computer Id IS NULL statement to only allow computers that have not been assigned to be deleted. 
         // POST: Computers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -222,7 +206,7 @@ namespace BangazonWorkforce.Controllers
             }
         }
 
-        // The private GetComputerById method is used to get an computer instance from the database by the computer id. It accepts one parameter: the computer id. It returns an Computer type object. This method will be used throughout the controller.
+        // The private GetComputerById method is used to get an computer instance from the database by the computer id. It accepts one parameter: the computer id. 
         private Computer GetComputerById(int id)
         {
             using (SqlConnection conn = Connection)
