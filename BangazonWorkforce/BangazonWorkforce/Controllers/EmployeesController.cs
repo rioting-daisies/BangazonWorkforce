@@ -1,5 +1,4 @@
-﻿// Author: Brian Jobe, Chris Morgan, Clif Matuszewski , Josh Hibray
-
+﻿// Author: Brian Jobe, Chris Morgan, Josh Hibray
 
 using System;
 using System.Collections.Generic;
@@ -33,33 +32,7 @@ namespace BangazonWorkforce.Controllers
         // GET: Employees
         public ActionResult Index()
         {
-            using (SqlConnection conn = Connection)
-            {
-                conn.Open();
-                using (SqlCommand cmd = conn.CreateCommand())
-                {
-                    cmd.CommandText = @"
-                                    SELECT e.Id, e.FirstName, e.LastName, e.DepartmentId
-                                    FROM Employee e";
-                    SqlDataReader reader = cmd.ExecuteReader();
-
-                    List<Employee> employees = new List<Employee>();
-
-                    while (reader.Read())
-                    {
-                        Employee employee = new Employee
-                        {
-                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                            FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
-                            LastName = reader.GetString(reader.GetOrdinal("LastName")),
-                            DepartmentId = reader.GetInt32(reader.GetOrdinal("DepartmentId"))
-                        };
-                        employees.Add(employee);
-                    }
-                    reader.Close();
-                    return View(employees);
-                }
-            }
+            return View();
         }
 
         // The Details method of the EmployeeController is used to GET all of the necessary data from the database and pass it down to the Employee Details view, which is the Employee/Details.cshtml file. The method accepts one parameter: The employee id, which is used within the EmployeeDetailsViewModel constructor method and the GetEmployeeById method. First, we create a new instance of the view model and pass in the employee id and the connection string. Then, we set the Employee property of the view model by using GetEmployeeId. We return the newly created view model to the View().
@@ -75,8 +48,7 @@ namespace BangazonWorkforce.Controllers
                 viewModel.Employee = employee;
 
                 return View(viewModel);
-            
-           
+
         }
 
         // GET: Employees/Create
