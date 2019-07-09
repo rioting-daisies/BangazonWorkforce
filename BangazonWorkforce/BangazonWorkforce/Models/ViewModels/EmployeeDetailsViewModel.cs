@@ -12,8 +12,11 @@ namespace BangazonWorkforce.Models.ViewModels
 {
     public class EmployeeDetailsViewModel
     {
+
+        //the connection string property will be used in the EmployeeDetailsViewModel constructor method as a parameter. This will allow us to keep the default connectionStrings reference within the Employee controller.
         private string _connectionString;
 
+        //When the constructor is used, the connection string argument will be set as the _connectionString property. Then the Connection property is obtained by creating a new SqlConnection with the _connectionString property. This establishes a connection to the BangazonAPI database.
         private SqlConnection Connection
         {
             get
@@ -21,14 +24,20 @@ namespace BangazonWorkforce.Models.ViewModels
                 return new SqlConnection(_connectionString);
             }
         }
+
+        // Employee property holds all the nested employee properties which is needed for the the details view for Employees.
         public Employee Employee { get; set; }
 
+        // Department property holds all the nested department properties which is needed for the the details view for Employees. This will allow us to render all the information about the Department the employee works in.
         public Department Department { get; set; }
 
+        // Computer property holds all the nested computer properties which is needed for the the details view for Employees.This is necessary for rendering all the information of the computer that is currently assigned to the employee.
         public Computer Computer { get; set; }
 
+        // The TrainingPrograms property is necessary to display all the information about the training programs that the employee has attended or will attend.
         public List<TrainingProgram> TrainingPrograms { get; set; }
 
+        // Constructor method for the view model. The constructor method accepts two arguments: the id of the Employee we are getting details, and the DefaultConnection string which establishes a connection to the database and allows us to get The Employee's Department, Computer, and Training Program information from the database
         public EmployeeDetailsViewModel(int id, string connectionString)
         {
             _connectionString = connectionString;
@@ -40,13 +49,15 @@ namespace BangazonWorkforce.Models.ViewModels
             TrainingPrograms = GetEmployeeTrainingPrograms(id);
         }
 
+        // The GetEmployeeDepartment private method is used to get information about the department that the employee is currently assigned to. It accepts one parameter: the employee Id, which is used within our sql statement in order to select the correct department. It returns a Department type object which will be used to set the Department Property of the View Model.
+
         private Department GetEmployeeDepartment(int id)
         {
-            using (SqlConnection conn = Connection)
+            using(SqlConnection conn = Connection)
             {
                 conn.Open();
 
-                using (SqlCommand cmd = conn.CreateCommand())
+                using(SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"SELECT 
                                             d.Id,
@@ -77,6 +88,7 @@ namespace BangazonWorkforce.Models.ViewModels
             }
         }
 
+        // The GetEmployeeComputer private method is used to get information about the computer that the employee is currently using. It accepts one parameter: the employee Id, which is used within our sql statement in order to select the correct computer. It returns a Computer type object which will be used to set the Computer Property of the View Model.
         private Computer GetEmployeeComputer(int id)
         {
             using (SqlConnection conn = Connection)
@@ -85,6 +97,8 @@ namespace BangazonWorkforce.Models.ViewModels
 
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
+                    // UnassignDate is NULL because this will return the computer that is currently assigned to the employee
+                    // Left Join brings back the null items for us
                     cmd.CommandText = @"SELECT 
                                             c.Id,
                                             c.Make,
@@ -107,6 +121,7 @@ namespace BangazonWorkforce.Models.ViewModels
 
                     if (reader.Read())
                     {
+                        // DecomissionDate is null, therefore we don't need to display this information as we know that the computer is currently assigned.
                         computer = new Computer
                         {
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
@@ -123,13 +138,15 @@ namespace BangazonWorkforce.Models.ViewModels
             }
         }
 
+        // The private method GetEmployeeTrainingPrograms is meant to select all the of the training programs that an employee has attended or will attend. It makes a GET to the TrainingProgram table and joins the EmployeeTraining join table and joins  the Employee which allows us to select only the training programs that the employee has attended. It accepts one parameter: the employee Id, which is used in the SQL statement to filter out the correct training programs. It returns a list of training programs that the employee has attended and is used to set the TrainingPrograms property.
+
         private List<TrainingProgram> GetEmployeeTrainingPrograms(int id)
         {
-            using (SqlConnection conn = Connection)
+            using(SqlConnection conn = Connection)
             {
                 conn.Open();
 
-                using (SqlCommand cmd = conn.CreateCommand())
+                using(SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"SELECT
                                             t.Id,

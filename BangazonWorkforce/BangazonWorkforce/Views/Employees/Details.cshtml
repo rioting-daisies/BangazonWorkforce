@@ -1,5 +1,5 @@
 ﻿@*Author: Chris Morgan
-    The purpose of the Details View is to show the details of a specific employee. The view accepts the EmployeeDetailsViewModel which contains all of the properties required to display the employee information, the department they belong to, the computer they use, and the training programs they've attended or will attend.*@
+The purpose of the Details View is to show the details of a specific employee. The view accepts the EmployeeDetailsViewModel which contains all of the properties required to display the employee information, the department they belong to, the computer they use, and the training programs they've attended or will attend.*@
 
 @model BangazonWorkforce.Models.ViewModels.EmployeeDetailsViewModel
 
@@ -13,6 +13,12 @@
     <h4>Employee</h4>
     <hr />
     <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Employee.Id)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Employee.Id)
+        </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Employee.FirstName)
         </dt>
@@ -105,6 +111,6 @@
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Employee.Id }) |
+    @Html.ActionLink("Edit", "Edit", new {  id = Model.Employee.Id  }) |
     <a asp-action="Index">Back to List</a>
 </div>
