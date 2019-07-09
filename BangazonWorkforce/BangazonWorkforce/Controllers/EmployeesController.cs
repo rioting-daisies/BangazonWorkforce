@@ -47,7 +47,7 @@ namespace BangazonWorkforce.Controllers
 
                 viewModel.Employee = employee;
 
-                return View(viewModel);
+            return View(viewModel);
 
         }
 
