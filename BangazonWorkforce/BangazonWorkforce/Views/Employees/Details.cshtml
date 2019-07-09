@@ -1,0 +1,134 @@
+﻿@*Author: Chris Morgan
+The purpose of the Details View is to show the details of a specific employee. The view accepts the EmployeeDetailsViewModel which contains all of the properties required to display the employee information, the department they belong to, the computer they use, and the training programs they've attended or will attend.*@
+
+@model BangazonWorkforce.Models.ViewModels.EmployeeDetailsViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Employee</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Employee.Id)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Employee.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Employee.FirstName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Employee.FirstName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Employee.LastName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Employee.LastName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Employee.IsSupervisor)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Employee.IsSupervisor)
+        </dd>
+    </dl>
+    <h4>Employee Department</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Department.Id)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Department.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Department.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Department.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Department.Budget)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Department.Budget)
+        </dd>
+    </dl>
+    <h4>Employee Computer</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Computer.Id)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Computer.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Computer.Manufacturer)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Computer.Manufacturer)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Computer.Make)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Computer.Make)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Computer.PurchaseDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Computer.PurchaseDate)
+        </dd>
+    </dl>
+    <h4>Training Programs Attended</h4>
+    <hr />
+    <dl class="row">
+
+        @foreach (var trainingProgram in Model.TrainingPrograms)
+        {
+
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => trainingProgram.Id)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => trainingProgram.Id)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => trainingProgram.Name)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => trainingProgram.Name)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => trainingProgram.StartDate)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => trainingProgram.StartDate)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => trainingProgram.EndDate)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => trainingProgram.EndDate)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => trainingProgram.MaxAttendees)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => trainingProgram.MaxAttendees)
+            </dd>
+        }
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new {  id = Model.Employee.Id  }) |
+    <a asp-action="Index">Back to List</a>
+</div>
