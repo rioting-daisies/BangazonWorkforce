@@ -13,12 +13,6 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.PurchaseDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DecomissionDate)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Make)
             </th>
             <th>
@@ -30,12 +24,6 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.PurchaseDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DecomissionDate)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Make)
             </td>
