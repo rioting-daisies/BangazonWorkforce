@@ -128,9 +128,16 @@ namespace BangazonWorkforce.Controllers
             }
         }
 
-        public ActionResult AssignTrainingProgram(int id)
+        // GET: Employees/AssignTrainingProgram
+        [ActionName("AssignTrainingProgramForm")]
+        public ActionResult AssignTrainingProgramForm(int id)
         {
 
+            AssignTrainingProgramViewModel viewModel = new AssignTrainingProgramViewModel(id, _config.GetConnectionString("DefaultConnection"));
+
+            viewModel.Employee = GetEmployeeById(id);
+
+            return View(viewModel);
         }
 
         // GET: Employees/Edit/5
