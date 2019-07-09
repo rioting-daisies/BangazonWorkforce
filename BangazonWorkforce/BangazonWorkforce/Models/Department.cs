@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BangazonWorkforce.Models
 {
-    public class Department
+   public class Department
     {
         public int Id { get; set; }
 
@@ -19,7 +19,6 @@ namespace BangazonWorkforce.Models
 
         public int Budget { get; set; }
         public int EmployeeCount { get; set; }
-       
-   
+
     }
 }
