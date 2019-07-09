@@ -39,7 +39,7 @@ namespace BangazonWorkforce.Controllers
                     cmd.CommandText = @"SELECT d.Id, d.Name AS DepartmentName, d.Budget AS Budget, 
                                         COUNT(e.Id) AS EmployeeId
                                         FROM Department d 
-                                        JOIN Employee e on d.Id = e.DepartmentId
+                                        LEFT JOIN Employee e on d.Id = e.DepartmentId
                                         GROUP BY d.Name, d.Budget, d.Id";
                     SqlDataReader reader = cmd.ExecuteReader();
 
@@ -88,9 +88,9 @@ namespace BangazonWorkforce.Controllers
                     conn.Open();
                     using (SqlCommand cmd = conn.CreateCommand())
                     {
-                        cmd.CommandText = @"INSERT INTO Department (Name) VALUES (@Name)";
+                        cmd.CommandText = @"INSERT INTO Department (Name, Budget) VALUES (@Name, @Budget)";
                         cmd.Parameters.Add(new SqlParameter("@Name", department.Name));
-
+                        cmd.Parameters.Add(new SqlParameter("@Budget", department.Budget));
                         await cmd.ExecuteNonQueryAsync();
 
                         return RedirectToAction(nameof(Index));
