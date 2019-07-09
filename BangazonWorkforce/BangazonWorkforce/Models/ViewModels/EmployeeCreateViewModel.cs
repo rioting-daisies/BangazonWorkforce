@@ -11,7 +11,7 @@ namespace BangazonWorkforce.Models.ViewModels
     {
 
         public List<SelectListItem> Departments { get; set; }
-        public Employee employee { get; set; }
+        public Employee Employee { get; set; }
 
         private string _connectionString;
 
