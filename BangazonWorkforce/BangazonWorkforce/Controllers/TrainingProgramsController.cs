@@ -76,6 +76,7 @@ namespace BangazonWorkforce.Controllers
            
         }
 
+        // Gets details of a training program the user selects on the index view. This method accepts one parameter: the training program id.
         // GET: TrainingPrograms/Details/5
         public ActionResult Details(int id)
         {
@@ -103,7 +104,7 @@ namespace BangazonWorkforce.Controllers
             return View();
         }
 
-        // This makes a post to the TrainingProgram table in the BangazonAPI database
+        // This makes a post to the TrainingProgram table in the BangazonAPI database. This method takes one parameter: A TrainingProgram object that is built with the form inputs
         // POST: TrainingPrograms/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -141,6 +142,7 @@ namespace BangazonWorkforce.Controllers
             }
         }
 
+        // Initial Edit(get) method, this gets the training program the user wants to edit and passes it down to the edit view. This method accepts one parameter: the trainingprogram id
         // GET: TrainingPrograms/Edit/5
         public ActionResult Edit(int id)
         {
@@ -149,6 +151,7 @@ namespace BangazonWorkforce.Controllers
             return View(trainingProgram);
         }
 
+        // The UPDATE functionality for editing training programs. This method accepts two parameters: The updated TrainingProgram id, and the TrainingProgram built with the form inputs
         // POST: TrainingPrograms/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -185,23 +188,37 @@ namespace BangazonWorkforce.Controllers
                 return View();
             }
         }
-
+        // This gets the training program by Id and then passes it down to the delete view.
         // GET: TrainingPrograms/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            TrainingProgram trainingProgram = GetTrainingProgramById(id);
+
+            return View(trainingProgram);
         }
 
+        // This is the functionality of the delete, this method makes sure to delete all the items in the EmployeeTraining join table first, then deletes the training program.
         // POST: TrainingPrograms/Delete/5
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult DeleteConfirmed(int id, IFormCollection collection)
         {
             try
             {
-                // TODO: Add delete logic here
+                using (SqlConnection conn = Connection)
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = @"DELETE FROM EmployeeTraining WHERE TrainingProgramId = @id; 
+                                            DELETE FROM TrainingProgram WHERE Id=@id";
 
-                return RedirectToAction(nameof(Index));
+                        cmd.Parameters.Add(new SqlParameter("@id", id));
+                        cmd.ExecuteNonQuery();
+
+                        return RedirectToAction(nameof(Index));
+                    }
+                }
             }
             catch
             {
@@ -209,6 +226,7 @@ namespace BangazonWorkforce.Controllers
             }
         }
 
+        // This method will be used to get a certain training program by Id. This private method is used in Details, Edit (get), and Delete(get). This method accepts one parameter: the training program id
         private TrainingProgram GetTrainingProgramById(int id)
         {
             using (SqlConnection conn = Connection)
