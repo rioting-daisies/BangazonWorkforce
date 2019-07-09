@@ -15,15 +15,19 @@ namespace BangazonWorkforce.Models
 
         [Required(ErrorMessage = "You must provide a purchase date for this computer.")]
         [Display(Name = "Purchase Date")]
+        [DataType(DataType.Date)]
         public DateTime PurchaseDate { get; set; }
 
         [Display(Name = "Decommission Date")]
-        public DateTime DecomissionDate { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? DecomissionDate { get; set; }
 
         [Required(ErrorMessage = "You must provide the Make/Model of this computer.")]
         public string Make { get; set; }
 
         [Required(ErrorMessage = "You must provide the Manufacturer of this computer.")]
         public string Manufacturer { get; set; }
+
+        public bool NeverBeenAssigned { get; set; }
     }
 }
