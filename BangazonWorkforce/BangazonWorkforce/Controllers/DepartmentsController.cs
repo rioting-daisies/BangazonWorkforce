@@ -28,6 +28,7 @@ namespace BangazonWorkforce.Controllers
                 return new SqlConnection(_config.GetConnectionString("DefaultConnection"));
             }
         }
+        //The Get all departments method in the departmentscontroller is used to display all departments with their name, budget, and a count of their total employees 
         // GET: Department
         public ActionResult Index()
         {
@@ -62,7 +63,7 @@ namespace BangazonWorkforce.Controllers
             }
 
         }
-
+        // The department details method is used to display the name budget and a list of the departments employees with their full names for the specefic department
         // GET: Department/Details/5
         public ActionResult Details(int id)
            {
@@ -80,7 +81,7 @@ namespace BangazonWorkforce.Controllers
         {
             return View();
         }
-
+        // Simple create method for departmentController to create a new department with a Name and a Budget
         // POST: Department/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -156,6 +157,8 @@ namespace BangazonWorkforce.Controllers
                 return View();
             }
         }
+
+        //Method for getting a specefic department by its Id
         private Department GetDepartmentById(int id)
         {
             using (SqlConnection conn = Connection)
