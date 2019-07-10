@@ -156,7 +156,7 @@ namespace BangazonWorkforce.Controllers
 
                     cmd.ExecuteNonQuery();
 
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("Details", "Employees", new { id = id });
                 }
             }
         }

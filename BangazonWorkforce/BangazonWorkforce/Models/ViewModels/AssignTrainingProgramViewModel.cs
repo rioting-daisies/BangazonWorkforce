@@ -71,19 +71,16 @@ namespace BangazonWorkforce.Models.ViewModels
 
                 using(SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT  t.Id,
-                                                t.Name,
-                                                t.StartDate,
-                                                t.EndDate,
-                                                t.MaxAttendees
-                                       FROM TrainingProgram t
-                                                                JOIN EmployeeTraining et ON et.TrainingProgramId = t.Id
-                                                                WHERE t.StartDate > GETDATE()
-                                                                AND (et.EmployeeId != @id
-                                                                AND t.Id NOT IN 
-                                                                (SELECT t.Id FROM TrainingProgram t
-                                                                JOIN EmployeeTraining et ON et.TrainingProgramId = t.Id
-                                                                WHERE et.EmployeeId = @id))";
+                    cmd.CommandText = @"SELECT t.Id,
+    t.Name,
+t.StartDate,
+t.EndDate,
+t.MaxAttendees
+
+    FROM TrainingProgram t
+    JOIN EmployeeTraining et ON et.TrainingProgramId = t.Id
+    WHERE t.StartDate > GETDATE()
+    AND (et.EmployeeId != @id AND t.Id NOT IN (SELECT t.Id From TrainingProgram t JOIN EmployeeTraining et ON et.TrainingProgramId = t.Id WHERE et.EmployeeId = @id))";
 
                     cmd.Parameters.Add(new SqlParameter("@id", id));
                     

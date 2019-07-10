@@ -77,7 +77,7 @@ The purpose of the Details View is to show the details of a specific employee. T
         </dd>
     </dl>
     <h4>Training Programs Attended</h4>
-    <a href='@string.Format("http://localhost:5000/Employees/AssignTrainingProgram/{0}", Model.Employee.Id)' >Assign New Training Program</a>
+    @Html.ActionLink("Assign New Training Program", "AssignTrainingProgramForm", new { id = Model.Employee.Id })
     <hr />
     <dl class="row">
 
