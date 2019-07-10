@@ -22,7 +22,7 @@ namespace BangazonWorkforce.Models
         public bool IsSupervisor { get; set; }
 
         [Display(Name = "Employee Name")]
-        public string GetEmployeeName 
+        public string GetEmployeeName
         {
             get {
                 return FirstName + " " + LastName;
