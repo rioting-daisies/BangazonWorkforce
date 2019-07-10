@@ -1,16 +1,16 @@
 ﻿@model IEnumerable<BangazonWorkforce.Models.TrainingProgram>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "PastTrainingProgramsIndex";
 }
 
-<h1>Index</h1>
+<h1>PastTrainingProgramsIndex</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
 <p>
-    <a asp-action="PastTrainingProgramsIndex">Past Training Programs</a>
+    <a asp-action="Index">Back to List</a>
 </p>
 <table class="table">
     <thead>
@@ -52,14 +52,12 @@
                 @Html.DisplayFor(modelItem => item.MaxAttendees)
             </td>
             <td>
-
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                
+               
+                @Html.ActionLink("PastDetails", "PastDetails", new { id = item.Id }) |
+               
             </td>
-            
         </tr>
 }
     </tbody>
 </table>
+            
