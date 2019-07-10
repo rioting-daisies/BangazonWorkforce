@@ -43,26 +43,6 @@ namespace BangazonWorkforce.Models.ViewModels
 
         }
 
-        public void AssignExercise()
-        {
-            using (SqlConnection conn = Connection)
-            {
-                conn.Open();
-
-                using (SqlCommand cmd = conn.CreateCommand())
-                {
-                    cmd.CommandText = "INSERT INTO EmployeeTraining (EmployeeId, TrainingProgramId) VALUES (@EmployeeId, @TrainingProgramId)";
-                    cmd.Parameters.Add(new SqlParameter("@EmployeeId", Employee.Id));
-                    cmd.Parameters.Add(new SqlParameter("@TrainingProgramId", SelectedValue));
-
-                    cmd.ExecuteNonQuery();
-
-                    
-                    
-                }
-            }
-        }
-
         private List<TrainingProgram> GetAvailableTrainingPrograms(int id)
         {
             using(SqlConnection conn = Connection)
@@ -71,16 +51,35 @@ namespace BangazonWorkforce.Models.ViewModels
 
                 using(SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT t.Id,
-    t.Name,
-t.StartDate,
-t.EndDate,
-t.MaxAttendees
 
-    FROM TrainingProgram t
-    JOIN EmployeeTraining et ON et.TrainingProgramId = t.Id
-    WHERE t.StartDate > GETDATE()
-    AND (et.EmployeeId != @id AND t.Id NOT IN (SELECT t.Id From TrainingProgram t JOIN EmployeeTraining et ON et.TrainingProgramId = t.Id WHERE et.EmployeeId = @id))";
+                    //cmd.CommandText = @"SELECT  t.Id,
+                    //                    t.Name,
+                    //                    t.StartDate,
+                    //                    t.EndDate,
+                    //                    t.MaxAttendees,
+                    //                    e.Id as EmployeeId,
+                    //                    e.FirstName,
+                    //                    e.LastName
+                    //                    FROM TrainingProgram t
+                    //                    Left JOIN EmployeeTraining et ON et.TrainingProgramId != t.Id
+                    //                    LEFT JOIN Employee e ON e.Id = et.EmployeeId
+                    //                    WHERE t.StartDate > GETDATE()
+                    //                    AND et.EmployeeId = @id";
+
+                    cmd.CommandText = @"SELECT t.Id,
+                                               t.Name,
+                                               t.StartDate,
+                                               t.EndDate,
+                                               t.MaxAttendees
+
+                                                FROM TrainingProgram t
+                                                LEFT JOIN EmployeeTraining et ON et.TrainingProgramId = t.Id
+                                                WHERE t.StartDate > GETDATE()
+                                                AND (et.EmployeeId != @id 
+                                                AND t.Id NOT IN
+                                                (SELECT t.Id From TrainingProgram t
+                                                LEFT JOIN EmployeeTraining et ON et.TrainingProgramId = t.Id WHERE et.EmployeeId = @id))
+                                                OR et.EmployeeId IS NULL";
 
                     cmd.Parameters.Add(new SqlParameter("@id", id));
                     

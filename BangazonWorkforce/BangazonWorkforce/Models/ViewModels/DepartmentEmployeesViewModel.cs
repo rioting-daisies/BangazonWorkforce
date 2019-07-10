@@ -58,7 +58,7 @@ namespace BangazonWorkforce.Models.ViewModels
                             Name = reader.GetString(reader.GetOrdinal("Name")),
                             Budget = reader.GetInt32(reader.GetOrdinal("Budget"))
                         };
-
+                        
                     }
                     reader.Close();
                     return department;
@@ -90,11 +90,12 @@ namespace BangazonWorkforce.Models.ViewModels
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
                             FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
                             LastName = reader.GetString(reader.GetOrdinal("LastName"))
-                            
                         };
                         employees.Add(employee);
+
                         
                     }
+                        
                     reader.Close();
                 }
             }
