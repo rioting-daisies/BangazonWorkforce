@@ -71,20 +71,22 @@ namespace BangazonWorkforce.Models.ViewModels
 
                 using(SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT
-                                            t.Id,
-                                            t.Name,
-                                            t.StartDate,
-                                            t.EndDate,
-                                            t.MaxAttendees,
-                                            et.EmployeeId
-                                        FROM EmployeeTraining et
-                                        FULL OUTER JOIN TrainingProgram t ON t.Id = et.TrainingProgramId
-                                        WHERE t.StartDate > GETDATE()
-                                        AND et.EmployeeId != @id
-                                        OR et.EmployeeId IS NULL";
+                    cmd.CommandText = @"SELECT  t.Id,
+                                                t.Name,
+                                                t.StartDate,
+                                                t.EndDate,
+                                                t.MaxAttendees
+                                       FROM TrainingProgram t
+                                                                JOIN EmployeeTraining et ON et.TrainingProgramId = t.Id
+                                                                WHERE t.StartDate > GETDATE()
+                                                                AND (et.EmployeeId != @id
+                                                                AND t.Id NOT IN 
+                                                                (SELECT t.Id FROM TrainingProgram t
+                                                                JOIN EmployeeTraining et ON et.TrainingProgramId = t.Id
+                                                                WHERE et.EmployeeId = @id))";
 
                     cmd.Parameters.Add(new SqlParameter("@id", id));
+                    
 
                     List<TrainingProgram> trainingPrograms = new List<TrainingProgram>();
 

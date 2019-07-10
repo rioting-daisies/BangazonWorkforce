@@ -15,6 +15,8 @@ namespace BangazonWorkforce.Models.ViewModels
         public List<Employee> employees { get; set; }
         public Department department { get; set; }
 
+        
+
         private string _connectionString;
 
         private SqlConnection Connection
@@ -30,6 +32,7 @@ namespace BangazonWorkforce.Models.ViewModels
             _connectionString = connectionString;
             GetDepartmentById(id);
             GetDepartmentEmployees(id);
+            
 
         }
         //Method to get a specefic Department by its Id spitting back the Name and the budget
@@ -90,6 +93,7 @@ namespace BangazonWorkforce.Models.ViewModels
                             
                         };
                         employees.Add(employee);
+                        
                     }
                     reader.Close();
                 }

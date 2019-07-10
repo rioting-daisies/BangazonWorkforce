@@ -75,6 +75,7 @@ namespace BangazonWorkforce.Controllers
         // The Details method of the EmployeeController is used to GET all of the necessary data from the database and pass it down to the Employee Details view, which is the Employee/Details.cshtml file. The method accepts one parameter: The employee id, which is used within the EmployeeDetailsViewModel constructor method and the GetEmployeeById method. First, we create a new instance of the view model and pass in the employee id and the connection string. Then, we set the Employee property of the view model by using GetEmployeeId. We return the newly created view model to the View().
 
         // GET: Employees/Details/5
+        [ActionName("Details")]
         public ActionResult Details(int id)
         {
 
@@ -155,7 +156,7 @@ namespace BangazonWorkforce.Controllers
 
                     cmd.ExecuteNonQuery();
 
-                    return RedirectToAction(nameof(Details));
+                    return RedirectToAction(nameof(Index));
                 }
             }
         }
