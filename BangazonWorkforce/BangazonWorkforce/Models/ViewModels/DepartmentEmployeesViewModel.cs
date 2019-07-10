@@ -1,4 +1,7 @@
-﻿using System;
+﻿//Author Clifton Matuszewski
+//The purpose of this viewModel is to hold all of the properties for displaying Specefic Departments by their Id's its neccesary in order to access the list of the departments Employees
+
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -8,6 +11,7 @@ namespace BangazonWorkforce.Models.ViewModels
 {
     public class DepartmentEmployeesViewModel
     {
+
         public List<Employee> employees { get; set; }
         public Department department { get; set; }
 
@@ -28,7 +32,7 @@ namespace BangazonWorkforce.Models.ViewModels
             GetDepartmentEmployees(id);
 
         }
-
+        //Method to get a specefic Department by its Id spitting back the Name and the budget
         private Department GetDepartmentById(int id)
         {
             using (SqlConnection conn = Connection)
@@ -58,7 +62,7 @@ namespace BangazonWorkforce.Models.ViewModels
                 }
             }
         }
-
+        //Method to get a Specefic Departments list of employees with their First and Last Names
         private void GetDepartmentEmployees(int id)
         {
             using (SqlConnection conn = Connection)

@@ -1,4 +1,7 @@
-﻿﻿using System;
+﻿//Author Clifton Matuszewski
+//Department class to hold its properties and also determine the fields that are required for departments to be created﻿
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
