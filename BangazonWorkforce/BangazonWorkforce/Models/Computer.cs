@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace BangazonWorkforce.Models
 {
     public class Computer
-    {
+    {   
         public int Id { get; set; }
 
         [Required(ErrorMessage = "You must provide a purchase date for this computer.")]
