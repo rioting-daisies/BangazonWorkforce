@@ -39,6 +39,8 @@ namespace BangazonWorkforce.Models.ViewModels
                                                 .Select(t => new SelectListItem(t.Name, t.Id.ToString()))
                                                 .ToList();
 
+            TrainingProgramsSelectItems.Insert(0, new SelectListItem("Choose a training program to assign this employee too", "0"));
+
         }
 
         public void AssignExercise()
@@ -74,12 +76,13 @@ namespace BangazonWorkforce.Models.ViewModels
                                             t.Name,
                                             t.StartDate,
                                             t.EndDate,
-                                            t.MaxAttendees
-                                        FROM TrainingProgram t
-                                        JOIN EmployeeTraining et ON et.TrainingProgramId = t.Id
-                                        JOIN Employee e ON e.Id = et.EmployeeId
-                                        WHERE t.StartDate > GetDate()
-                                        AND et.EmployeeId != @id";
+                                            t.MaxAttendees,
+                                            et.EmployeeId
+                                        FROM EmployeeTraining et
+                                        FULL OUTER JOIN TrainingProgram t ON t.Id = et.TrainingProgramId
+                                        WHERE t.StartDate > GETDATE()
+                                        AND et.EmployeeId != @id
+                                        OR et.EmployeeId IS NULL";
 
                     cmd.Parameters.Add(new SqlParameter("@id", id));
 
@@ -89,16 +92,20 @@ namespace BangazonWorkforce.Models.ViewModels
 
                     while(reader.Read())
                     {
-                        TrainingProgram trainingProgram = new TrainingProgram
+                        if(!trainingPrograms.Any(t => t.Id == reader.GetInt32(reader.GetOrdinal("Id"))))
                         {
-                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                            Name = reader.GetString(reader.GetOrdinal("Name")),
-                            StartDate = reader.GetDateTime(reader.GetOrdinal("StartDate")),
-                            EndDate = reader.GetDateTime(reader.GetOrdinal("EndDate")),
-                            MaxAttendees = reader.GetInt32(reader.GetOrdinal("MaxAttendees"))
-                        };
+                            TrainingProgram trainingProgram = new TrainingProgram
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                Name = reader.GetString(reader.GetOrdinal("Name")),
+                                StartDate = reader.GetDateTime(reader.GetOrdinal("StartDate")),
+                                EndDate = reader.GetDateTime(reader.GetOrdinal("EndDate")),
+                                MaxAttendees = reader.GetInt32(reader.GetOrdinal("MaxAttendees"))
+                            };
 
-                        trainingPrograms.Add(trainingProgram);
+                            trainingPrograms.Add(trainingProgram);
+
+                        }
                     }
 
                     reader.Close();

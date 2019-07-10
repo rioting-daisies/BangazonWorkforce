@@ -140,9 +140,8 @@ namespace BangazonWorkforce.Controllers
             return View(viewModel);
         }
 
-        public ActionResult AssignTrainingProgram(int id, [FromForm] int SelectedValue)
+        public ActionResult AssignTrainingProgram([FromRoute]int id, [FromForm] int SelectedValue)
         {
-            //AssignTrainingProgramViewModel viewModel = new AssignTrainingProgramViewModel(id, _config.GetConnectionString("DefaultConnection"));
 
             using(SqlConnection conn = Connection)
             {
