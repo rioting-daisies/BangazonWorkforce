@@ -131,7 +131,13 @@ namespace BangazonWorkforce.Controllers
         // GET: Employees/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            EmployeeEditViewModel employeeEditViewModel = new EmployeeEditViewModel(id, _config.GetConnectionString("DefaultConnection"));
+
+            Employee employee = GetEmployeeById(id);
+
+            employeeEditViewModel.Employee = employee;
+
+            return View(employeeEditViewModel);
         }
 
         // POST: Employees/Edit/5
