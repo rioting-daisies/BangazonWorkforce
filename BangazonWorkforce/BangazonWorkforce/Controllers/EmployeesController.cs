@@ -129,7 +129,7 @@ namespace BangazonWorkforce.Controllers
         }
 
         // GET: Employees/AssignTrainingProgram
-        [ActionName("AssignTrainingProgramForm")]
+        [HttpGet("/Employees/AssignTrainingProgram/{id?}"), ActionName("AssignTrainingProgramForm")]
         public ActionResult AssignTrainingProgramForm(int id)
         {
 
@@ -138,6 +138,27 @@ namespace BangazonWorkforce.Controllers
             viewModel.Employee = GetEmployeeById(id);
 
             return View(viewModel);
+        }
+
+        public ActionResult AssignTrainingProgram(int id, [FromForm] int SelectedValue)
+        {
+            //AssignTrainingProgramViewModel viewModel = new AssignTrainingProgramViewModel(id, _config.GetConnectionString("DefaultConnection"));
+
+            using(SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using(SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "INSERT INTO EmployeeTraining (EmployeeId, TrainingProgramId) VALUES (@EmployeeId, @TrainingProgramId)";
+                    cmd.Parameters.Add(new SqlParameter("@EmployeeId", id));
+                    cmd.Parameters.Add(new SqlParameter("@TrainingProgramId", SelectedValue));
+
+                    cmd.ExecuteNonQuery();
+
+                    return RedirectToAction(nameof(Index));
+                }
+            }
         }
 
         // GET: Employees/Edit/5

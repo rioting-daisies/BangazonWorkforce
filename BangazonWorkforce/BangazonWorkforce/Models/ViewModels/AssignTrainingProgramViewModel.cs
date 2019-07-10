@@ -1,6 +1,7 @@
 ﻿// Author: Chris Morgan
 // The purpose of the AssignTrainingViewModel is to hold a list of training programs that the employee can be assigned to.
 
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -38,6 +39,26 @@ namespace BangazonWorkforce.Models.ViewModels
                                                 .Select(t => new SelectListItem(t.Name, t.Id.ToString()))
                                                 .ToList();
 
+        }
+
+        public void AssignExercise()
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "INSERT INTO EmployeeTraining (EmployeeId, TrainingProgramId) VALUES (@EmployeeId, @TrainingProgramId)";
+                    cmd.Parameters.Add(new SqlParameter("@EmployeeId", Employee.Id));
+                    cmd.Parameters.Add(new SqlParameter("@TrainingProgramId", SelectedValue));
+
+                    cmd.ExecuteNonQuery();
+
+                    
+                    
+                }
+            }
         }
 
         private List<TrainingProgram> GetAvailableTrainingPrograms(int id)
