@@ -96,7 +96,6 @@ namespace BangazonWorkforce.Controllers
                     return View(viewModels);
                 }
             }
-
         }
         //This method pulls in the details for individual computers. It uses a join table with ComputerEmployee to check whether the computer has ever been assigned. 
         // GET: Computers/Details/5
