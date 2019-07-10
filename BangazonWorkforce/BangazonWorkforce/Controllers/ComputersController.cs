@@ -9,6 +9,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using BangazonWorkforce.Models;
+using BangazonWorkforce.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -35,41 +36,64 @@ namespace BangazonWorkforce.Controllers
         // GET: Computers
         public ActionResult Index(string searchString)
         {
+
             using (SqlConnection conn = Connection)
             {
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                                      SELECT c.Id, c.Make, c.Manufacturer, c.PurchaseDate, c.DecomissionDate FROM Computer c";
+                                         SELECT c.Id, c.Make, c.Manufacturer, c.PurchaseDate,
+                                                ce.AssignDate, ce.UnassignDate, e.Id as EmployeeId,
+                                                e.FirstName, e.LastName, e.DepartmentId, e.IsSuperVisor
+                                                FROM Computer c
+                                                LEFT JOIN ComputerEmployee ce ON c.id = ce.ComputerId
+                                                LEFT JOIN Employee e ON e.Id = ce.EmployeeId";
                     SqlDataReader reader = cmd.ExecuteReader();
 
-                    List<Computer> computers = new List<Computer>();
+
+                    Dictionary<int, ComputerIndexViewModel> viewModelHash = new Dictionary<int, ComputerIndexViewModel>();
+
                     while (reader.Read())
                     {
-                        Computer computer = new Computer
+                        int computerId = reader.GetInt32(reader.GetOrdinal("Id"));
+                        if (!viewModelHash.ContainsKey(computerId))
                         {
-                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                            Manufacturer = reader.GetString(reader.GetOrdinal("Manufacturer")),
-                            Make = reader.GetString(reader.GetOrdinal("Make")),
-                            PurchaseDate = reader.GetDateTime(reader.GetOrdinal("PurchaseDate"))
-                        };
 
-                        if (!reader.IsDBNull(reader.GetOrdinal("DecomissionDate")))
-                        {
-                            computer.DecomissionDate = reader.GetDateTime(reader.GetOrdinal("DecomissionDate"));
+                            viewModelHash[computerId] = new ComputerIndexViewModel()
+                            {
+                                Computer = new Computer
+                                {
+                                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                    Manufacturer = reader.GetString(reader.GetOrdinal("Manufacturer")),
+                                    Make = reader.GetString(reader.GetOrdinal("Make")),
+                                    PurchaseDate = reader.GetDateTime(reader.GetOrdinal("PurchaseDate"))
+                                }
+                            };
+
+                            if (!reader.IsDBNull(reader.GetOrdinal("AssignDate")) && reader.IsDBNull(reader.GetOrdinal("UnassignDate")))
+                            {
+                                viewModelHash[computerId].Employee = new Employee
+                                {
+                                    Id = reader.GetInt32(reader.GetOrdinal("EmployeeId")),
+                                    FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
+                                    LastName = reader.GetString(reader.GetOrdinal("LastName")),
+                                    DepartmentId = reader.GetInt32(reader.GetOrdinal("DepartmentId")),
+                                    IsSupervisor = reader.GetBoolean(reader.GetOrdinal("IsSuperVisor"))
+                                };
+                            }  
                         }
-
-                        computers.Add(computer);
                     }
                     reader.Close();
 
+                    List<ComputerIndexViewModel> viewModels = viewModelHash.Values.ToList();
+
                     if (!String.IsNullOrEmpty(searchString))
                     {
-                        computers = computers.Where(s => s.Make.Contains(searchString) || s.Manufacturer.Contains(searchString)).ToList();
+                        viewModels = viewModels.Where(s => s.Computer.Make.Contains(searchString) || s.Computer.Manufacturer.Contains(searchString)).ToList();
                     }
 
-                    return View(computers);
+                    return View(viewModels);
                 }
             }
 
@@ -124,13 +148,15 @@ namespace BangazonWorkforce.Controllers
         // GET: Computers/Create
         public ActionResult Create()
         {
-            return View();
+            ComputerIndexViewModel computerIndexViewModel = new ComputerIndexViewModel(_config.GetConnectionString("DefaultConnection"));
+
+            return View(computerIndexViewModel);
         }
 
         // POST: Computers/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(Computer Computer)
+        public async Task<ActionResult> Create(ComputerIndexViewModel viewModel)
         {
             try
             {
@@ -140,13 +166,21 @@ namespace BangazonWorkforce.Controllers
 
                     using (SqlCommand cmd = conn.CreateCommand())
                     {
-                        cmd.CommandText = @"Insert INTO Computer 
+                        cmd.CommandText = @"INSERT INTO Computer 
                                             (Make, Manufacturer, PurchaseDate) 
                                             VALUES 
-                                            (@Make, @Manufacturer, @PurchaseDate)";
-                        cmd.Parameters.Add(new SqlParameter("@Make", Computer.Make));
-                        cmd.Parameters.Add(new SqlParameter("@Manufacturer", Computer.Manufacturer));
-                        cmd.Parameters.Add(new SqlParameter("@PurchaseDate", Computer.PurchaseDate));
+                                            (@Make, @Manufacturer, @PurchaseDate)
+                                            DECLARE @newId INT
+                                            SELECT @newId = @@IDENTITY
+                                            INSERT INTO ComputerEmployee
+                                            (ComputerId, EmployeeId, AssignDate)
+                                            VALUES
+                                            (@newId, @EmployeeId, @AssignDate)";
+                        cmd.Parameters.Add(new SqlParameter("@Make", viewModel.Computer.Make));
+                        cmd.Parameters.Add(new SqlParameter("@Manufacturer", viewModel.Computer.Manufacturer));
+                        cmd.Parameters.Add(new SqlParameter("@PurchaseDate", viewModel.Computer.PurchaseDate));
+                        cmd.Parameters.Add(new SqlParameter("@EmployeeId", viewModel.EmployeeId));
+                        cmd.Parameters.Add(new SqlParameter("@AssignDate", DateTime.Now));
                         await cmd.ExecuteNonQueryAsync();
 
                         return RedirectToAction(nameof(Index));
