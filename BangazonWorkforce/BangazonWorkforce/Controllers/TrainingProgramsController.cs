@@ -96,11 +96,11 @@ namespace BangazonWorkforce.Controllers
             }
 
         }
-
+        // Gets details of a training program the user selects on the index view. This method accepts one parameter: the training program id.
         // GET: TrainingPrograms/Details/5
         public ActionResult PastDetails(int id)
         {
-            TrainingProgram trainingProgram = GetPastTrainingProgram(id);
+            TrainingProgram trainingProgram = GetPastTrainingProgramById(id);
 
             if (trainingProgram == null)
             {
@@ -245,8 +245,7 @@ namespace BangazonWorkforce.Controllers
                 return View();
             }
         }
-        // The index() method is a GetAllTrainingDepartments method. It only returns training departments that haven't started yet. The result is passed into the Index view for Employees
-        // GET: TrainingPrograms
+        // The PastTrainingProgramsindex() method is a GetAllPastTrainingDepartments method. It only returns training programs that have already happened and displays them on the past index page.
         public ActionResult PastTrainingProgramsIndex()
         {
             using (SqlConnection conn = Connection)
@@ -333,7 +332,8 @@ namespace BangazonWorkforce.Controllers
                 }
             }
         }
-        private TrainingProgram GetPastTrainingProgram(int id)
+        // Gets a past training program by its Id.
+        private TrainingProgram GetPastTrainingProgramById(int id)
         {
             using (SqlConnection conn = Connection)
             {

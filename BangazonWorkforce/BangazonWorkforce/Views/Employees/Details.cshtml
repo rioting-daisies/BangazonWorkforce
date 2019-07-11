@@ -7,18 +7,13 @@ The purpose of the Details View is to show the details of a specific employee. T
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Employee Details</h1>
 
 <div>
     <h4>Employee</h4>
     <hr />
     <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Employee.Id)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Employee.Id)
-        </dd>
+        
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Employee.FirstName)
         </dt>
@@ -77,6 +72,7 @@ The purpose of the Details View is to show the details of a specific employee. T
         </dd>
     </dl>
     <h4>Training Programs Attended</h4>
+    @Html.ActionLink("Assign New Training Program", "AssignTrainingProgramForm", new { id = Model.Employee.Id })
     <hr />
     <dl class="row">
 
@@ -106,6 +102,8 @@ The purpose of the Details View is to show the details of a specific employee. T
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => trainingProgram.MaxAttendees)
+            
+            <hr />
             </dd>
         }
     </dl>

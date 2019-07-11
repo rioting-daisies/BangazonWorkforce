@@ -1,10 +1,13 @@
-﻿@model BangazonWorkforce.Models.TrainingProgram
+﻿@*Author: Chris Morgan
+    The Training Program Index view is responsible for displaying the edit form used to update a training program*@
+
+@model BangazonWorkforce.Models.TrainingProgram
 
 @{
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1>Edit Training Program</h1>
 
 <h4>TrainingProgram</h4>
 <hr />
@@ -21,14 +24,14 @@
                 @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label" })
                 <div>
                     @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control" } })
-                   
+
                 </div>
             </div>
             <div class="form-group">
                 @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label " })
                 <div>
                     @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" } })
-                    
+
                 </div>
             </div>
             <div class="form-group">

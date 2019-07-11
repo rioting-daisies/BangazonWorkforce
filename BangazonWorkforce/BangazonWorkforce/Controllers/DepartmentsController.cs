@@ -1,5 +1,7 @@
 ﻿//Author Clifton Matuszewski
-
+//This controller allows the user to view all of the departments along with a count of it's employees
+//It also allows the user to see a detailed view of specefic departments with the names of all it's employees
+//Lastly it allows the user to Create a new department
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;

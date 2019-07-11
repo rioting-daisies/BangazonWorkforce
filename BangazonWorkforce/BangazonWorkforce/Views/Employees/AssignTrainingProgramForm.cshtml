@@ -1,0 +1,53 @@
+﻿@*Author: Chris Morgan
+The purpose of the AssignTrainingProgramForm View is to display the page responsible for allowing the user to assign an employee to available training programs*@
+
+@model BangazonWorkforce.Models.ViewModels.AssignTrainingProgramViewModel
+
+@{
+    ViewData["Title"] = "AssignTrainingProgramForm";
+}
+
+<h1>Assign an Employee to a Training Program</h1>
+
+<hr />
+
+<div>
+    <h4>Employee</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Employee.FirstName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Employee.FirstName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Employee.LastName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Employee.LastName)
+        </dd>
+    </dl>
+</div>
+<hr />
+        <form asp-action="AssignTrainingProgram">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="SelectedValue" class="control-label"></label>
+                <select asp-for="SelectedValue" asp-items="@Model.TrainingProgramsSelectItems"></select>
+                <span asp-validation-for="SelectedValue" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input name="submitButton" type="submit" value="Save" asp-controller="Employees" asp-action="AssignExercise" class="btn btn-primary" />
+            </div>
+        </form>
+
+
+
+        <div>
+            <a asp-action="Index">Back to List</a>
+        </div>
+
+        @section Scripts {
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        }

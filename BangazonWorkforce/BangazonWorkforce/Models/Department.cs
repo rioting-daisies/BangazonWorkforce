@@ -13,7 +13,7 @@ namespace BangazonWorkforce.Models
     {
         public int Id { get; set; }
 
-
+        
         [Required(ErrorMessage = "You must provide a name for this department.")]
         public string Name { get; set; }
 
@@ -21,6 +21,8 @@ namespace BangazonWorkforce.Models
         [Range(0, int.MaxValue, ErrorMessage = "A budget cannot be less than zero.")]
 
         public int Budget { get; set; }
+
+        
         public int EmployeeCount { get; set; }
 
     }
