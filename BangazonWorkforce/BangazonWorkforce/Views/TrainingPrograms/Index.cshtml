@@ -7,7 +7,9 @@ The Training Program Index view is responsible for displaying all the informatio
     ViewData["Title"] = "Index";
 }
 
+
 <h1>Upcoming Training Programs</h1>
+
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -18,9 +20,7 @@ The Training Program Index view is responsible for displaying all the informatio
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
+            
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
@@ -39,9 +39,7 @@ The Training Program Index view is responsible for displaying all the informatio
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
+            
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>

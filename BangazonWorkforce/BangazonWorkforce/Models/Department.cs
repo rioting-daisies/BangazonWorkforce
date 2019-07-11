@@ -13,7 +13,7 @@ namespace BangazonWorkforce.Models
     {
         public int Id { get; set; }
 
-
+        
         [Required(ErrorMessage = "You must provide a name for this department.")]
         public string Name { get; set; }
 
