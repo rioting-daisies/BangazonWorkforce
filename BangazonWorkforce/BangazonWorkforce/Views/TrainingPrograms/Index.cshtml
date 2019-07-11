@@ -1,10 +1,15 @@
-﻿@model IEnumerable<BangazonWorkforce.Models.TrainingProgram>
+﻿@*Author: Chris Morgan
+The Training Program Index view is responsible for displaying all the information about upcoming training programs*@
+
+@model IEnumerable<BangazonWorkforce.Models.TrainingProgram>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Training Programs</h1>
+
+<h1>Upcoming Training Programs</h1>
+
 
 <p>
     <a asp-action="Create">Create New</a>

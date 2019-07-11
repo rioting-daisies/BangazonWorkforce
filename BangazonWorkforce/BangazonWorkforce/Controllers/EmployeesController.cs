@@ -75,6 +75,7 @@ namespace BangazonWorkforce.Controllers
         // The Details method of the EmployeeController is used to GET all of the necessary data from the database and pass it down to the Employee Details view, which is the Employee/Details.cshtml file. The method accepts one parameter: The employee id, which is used within the EmployeeDetailsViewModel constructor method and the GetEmployeeById method. First, we create a new instance of the view model and pass in the employee id and the connection string. Then, we set the Employee property of the view model by using GetEmployeeId. We return the newly created view model to the View().
 
         // GET: Employees/Details/5
+        [ActionName("Details")]
         public ActionResult Details(int id)
         {
 
@@ -126,6 +127,44 @@ namespace BangazonWorkforce.Controllers
             {
                 return View();
             }
+        }
+        // The AssignTrainingProgramForm is responsible for gathering the data needed for rendering the page that allows the user to assign an employee to a training program. It accepts one parameter, the employee id. This method creates an instance of the AssignTrainingProgramViewModel which contains the properties that are needed for the form.
+        // GET: Employees/AssignTrainingProgram
+        [HttpGet("/Employees/AssignTrainingProgram/{id?}"), ActionName("AssignTrainingProgramForm")]
+        public ActionResult AssignTrainingProgramForm(int id)
+        {
+
+            AssignTrainingProgramViewModel viewModel = new AssignTrainingProgramViewModel(id, _config.GetConnectionString("DefaultConnection"));
+
+            viewModel.Employee = GetEmployeeById(id);
+
+            return View(viewModel);
+        }
+
+        // The AssignTrainingProgram is responsible for updating the EmployeeTraining table in the database which represents assigning an employee to a training program. It accepts two parameters: The employeeId from the route [/Employees/AssignTrainingProgram/{id}], and the SelectedValue which represents the training program Id that is attatched to the training program that the user is assigning the employee to.
+        public ActionResult AssignTrainingProgram([FromRoute]int id, [FromForm] int SelectedValue)
+        {
+            // If the user doesn't select an option, the program won't break and the user will still be returned to details
+            if(SelectedValue != 0)
+            {
+
+                using(SqlConnection conn = Connection)
+                {
+                    conn.Open();
+
+                    using(SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "INSERT INTO EmployeeTraining (EmployeeId, TrainingProgramId) VALUES (@EmployeeId, @TrainingProgramId)";
+                        cmd.Parameters.Add(new SqlParameter("@EmployeeId", id));
+                        cmd.Parameters.Add(new SqlParameter("@TrainingProgramId", SelectedValue));
+
+                        cmd.ExecuteNonQuery();
+
+                    }
+                }
+            }
+            
+            return RedirectToAction("Details", "Employees", new { id = id });
         }
 
         // GET: Employees/Edit/5
