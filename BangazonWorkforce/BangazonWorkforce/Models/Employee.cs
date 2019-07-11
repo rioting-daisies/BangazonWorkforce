@@ -22,7 +22,7 @@ namespace BangazonWorkforce.Models
         public bool IsSupervisor { get; set; }
 
         [Display(Name = "Employee Name")]
-        public string GetEmployeeName 
+        public string GetEmployeeName
         {
             get {
                 return FirstName + " " + LastName;
@@ -36,7 +36,6 @@ namespace BangazonWorkforce.Models
         [Required(ErrorMessage = "Please select which department this employee is assigned to")]
         [Display(Name = "Department")]
         public int DepartmentId { get; set; }
-
 
         public Department Department { get; set; }
 

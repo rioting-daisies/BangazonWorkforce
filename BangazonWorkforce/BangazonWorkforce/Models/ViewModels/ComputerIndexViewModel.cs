@@ -17,7 +17,7 @@ namespace BangazonWorkforce.Models.ViewModels
 
         public List<SelectListItem> Employees { get; set; }
 
-        public int EmployeeId { get; set; }
+        public int? EmployeeId { get; set; }
 
 
         private string _connectionString;
@@ -82,6 +82,7 @@ namespace BangazonWorkforce.Models.ViewModels
                 }
             }
         }
+
     }
 }
 

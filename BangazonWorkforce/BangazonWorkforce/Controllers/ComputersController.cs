@@ -96,7 +96,6 @@ namespace BangazonWorkforce.Controllers
                     return View(viewModels);
                 }
             }
-
         }
         //This method pulls in the details for individual computers. It uses a join table with ComputerEmployee to check whether the computer has ever been assigned. 
         // GET: Computers/Details/5
@@ -160,27 +159,41 @@ namespace BangazonWorkforce.Controllers
         {
             try
             {
+                string sql = @"INSERT INTO Computer 
+                                            (Make, Manufacturer, PurchaseDate) 
+                                            VALUES 
+                                            (@Make, @Manufacturer, @PurchaseDate)";
+
+                if (viewModel.EmployeeId != null && viewModel.EmployeeId != 0)
+                {
+                    sql = $@"{sql} 
+                                DECLARE @newId INT
+                                SELECT @newId = @@IDENTITY
+                                UPDATE ComputerEmployee
+                                SET UnassignDate = @AssignDate
+                                WHERE EmployeeID = @EmployeeId AND UnassignDate IS NULL
+                                INSERT INTO ComputerEmployee
+                                (ComputerId, EmployeeId, AssignDate)
+                                VALUES
+                                (@newId, @EmployeeId, @AssignDate)";
+                        }
+
                 using (SqlConnection conn = Connection)
                 {
                     conn.Open();
 
                     using (SqlCommand cmd = conn.CreateCommand())
                     {
-                        cmd.CommandText = @"INSERT INTO Computer 
-                                            (Make, Manufacturer, PurchaseDate) 
-                                            VALUES 
-                                            (@Make, @Manufacturer, @PurchaseDate)
-                                            DECLARE @newId INT
-                                            SELECT @newId = @@IDENTITY
-                                            INSERT INTO ComputerEmployee
-                                            (ComputerId, EmployeeId, AssignDate)
-                                            VALUES
-                                            (@newId, @EmployeeId, @AssignDate)";
+                        cmd.CommandText = sql;
+
                         cmd.Parameters.Add(new SqlParameter("@Make", viewModel.Computer.Make));
                         cmd.Parameters.Add(new SqlParameter("@Manufacturer", viewModel.Computer.Manufacturer));
                         cmd.Parameters.Add(new SqlParameter("@PurchaseDate", viewModel.Computer.PurchaseDate));
-                        cmd.Parameters.Add(new SqlParameter("@EmployeeId", viewModel.EmployeeId));
-                        cmd.Parameters.Add(new SqlParameter("@AssignDate", DateTime.Now));
+                        if (viewModel.EmployeeId != null && viewModel.EmployeeId != 0)
+                        {
+                            cmd.Parameters.Add(new SqlParameter("@EmployeeId", viewModel.EmployeeId));
+                            cmd.Parameters.Add(new SqlParameter("@AssignDate", DateTime.Now));
+                        }
                         await cmd.ExecuteNonQueryAsync();
 
                         return RedirectToAction(nameof(Index));
