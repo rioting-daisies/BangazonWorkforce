@@ -24,25 +24,32 @@ namespace BangazonWorkforce.Models.ViewModels
             }
         }
 
+        // Employee property represents the employee that the user wants to assign a training program to.
         public Employee Employee { get; set; }
 
+        // The selected value property represents the training program id of the TP the user is assiging to the employee
         public int SelectedValue { get; set; }
 
+        // The TrainingProgramsSelectItems represents the upcome training programs that the user has not already been assigned to. It is used to populate the dropdown
         public List<SelectListItem> TrainingProgramsSelectItems { get; set; }
 
-        public AssignTrainingProgramViewModel() { }
+        // Constructor method for the ViewModel. This method accepts two parameters: The employee id and the connection string to establish a connection to the DB.
         public AssignTrainingProgramViewModel(int id, string connectionString)
         {
             _connectionString = connectionString;
+
+            // Set the TPSelectListItems to the result of GetAvailableTPs(by Emp id) and convert the List<TP> to a List<SelectListItem>
 
             TrainingProgramsSelectItems = GetAvailableTrainingPrograms(id)
                                                 .Select(t => new SelectListItem(t.Name, t.Id.ToString()))
                                                 .ToList();
 
+            // label the dropdown with the first option
             TrainingProgramsSelectItems.Insert(0, new SelectListItem("Choose a Training Program", "0"));
 
         }
 
+        // The GetAvailableTrainingPrograms method is used to gather all the upcoming training programs that the employee is not currently assigned to and training programs that are full are filtered out. It accepts one parameter: the Employee Id. Returns a List<TP>
         private List<TrainingProgram> GetAvailableTrainingPrograms(int id)
         {
             using(SqlConnection conn = Connection)
@@ -52,12 +59,16 @@ namespace BangazonWorkforce.Models.ViewModels
                 using(SqlCommand cmd = conn.CreateCommand())
                 {
 
-                    cmd.CommandText = @"SELECT Id, Name
-                                            FROM TrainingProgram
+                    cmd.CommandText = @"SELECT t.Id, t.Name, COUNT(et.EmployeeId)
+                                            FROM TrainingProgram t
+                                             LEFT JOIN EmployeeTraining et ON et.TrainingProgramId = t.Id
                                             WHERE StartDate > GETDATE()
+                                            GROUP BY t.Id, t.Name, t.MaxAttendees
+                                            HAVING COUNT(et.EmployeeId) < t.MaxAttendees
                                             EXCEPT
                                             SELECT t.Id,
-                                            t.Name
+                                            t.Name,
+                                            t.MaxAttendees
                                             FROM TrainingProgram t
                                             LEFT JOIN EmployeeTraining et ON et.TrainingProgramId = t.Id
                                             LEFT JOIN Employee e ON e.Id = et.EmployeeId

@@ -14,9 +14,13 @@ namespace BangazonWorkforce.Models.ViewModels
     public class EmployeeCreateViewModel
     {
 
+        // List of Departments as Select List Items that the employee can be assigned to, populates the drop down on the create employee form
         public List<SelectListItem> Departments { get; set; }
+
+        // Employee property used to display the employee properties on the form
         public Employee Employee { get; set; }
 
+        // Connection methods / used to establish connection to BangazonAPI
         private string _connectionString;
 
         private SqlConnection Connection
@@ -27,8 +31,10 @@ namespace BangazonWorkforce.Models.ViewModels
             }
         }
 
+        // Overloaded method accepting no parameters used in the POST. It grabs all the information off the form to build this employee
         public EmployeeCreateViewModel() { }
 
+        // Overloaded method accepting one parameter: the connection string. This constructor method sets the Departments property by calling GetAllDepartments and converting the List of Depts => List of Select list items
         public EmployeeCreateViewModel(string connectionString)
         {
             _connectionString = connectionString;
@@ -50,6 +56,7 @@ namespace BangazonWorkforce.Models.ViewModels
 
         }
 
+        // Gets all departments in the database
         private List<Department> GetAllDepartments()
         {
             using (SqlConnection conn = Connection)

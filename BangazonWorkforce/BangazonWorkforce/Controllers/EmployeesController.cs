@@ -128,7 +128,7 @@ namespace BangazonWorkforce.Controllers
                 return View();
             }
         }
-
+        // The AssignTrainingProgramForm is responsible for gathering the data needed for rendering the page that allows the user to assign an employee to a training program. It accepts one parameter, the employee id. This method creates an instance of the AssignTrainingProgramViewModel which contains the properties that are needed for the form.
         // GET: Employees/AssignTrainingProgram
         [HttpGet("/Employees/AssignTrainingProgram/{id?}"), ActionName("AssignTrainingProgramForm")]
         public ActionResult AssignTrainingProgramForm(int id)
@@ -141,8 +141,10 @@ namespace BangazonWorkforce.Controllers
             return View(viewModel);
         }
 
+        // The AssignTrainingProgram is responsible for updating the EmployeeTraining table in the database which represents assigning an employee to a training program. It accepts two parameters: The employeeId from the route [/Employees/AssignTrainingProgram/{id}], and the SelectedValue which represents the training program Id that is attatched to the training program that the user is assigning the employee to.
         public ActionResult AssignTrainingProgram([FromRoute]int id, [FromForm] int SelectedValue)
         {
+            // If the user doesn't select an option, the program won't break and the user will still be returned to details
             if(SelectedValue != 0)
             {
 
@@ -158,14 +160,11 @@ namespace BangazonWorkforce.Controllers
 
                         cmd.ExecuteNonQuery();
 
-                        return RedirectToAction("Details", "Employees", new { id = id });
                     }
                 }
             }
-            else
-            {
-                return RedirectToAction("Details", "Employees", new { id = id });
-            }
+            
+            return RedirectToAction("Details", "Employees", new { id = id });
         }
 
         // GET: Employees/Edit/5
