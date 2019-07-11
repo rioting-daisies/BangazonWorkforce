@@ -48,6 +48,7 @@ namespace BangazonWorkforce.Controllers
                                                 e.FirstName, e.LastName, e.DepartmentId, e.IsSuperVisor
                                                 FROM Computer c
                                                 LEFT JOIN ComputerEmployee ce ON c.id = ce.ComputerId
+                                                AND UnassignDate IS NULL
                                                 LEFT JOIN Employee e ON e.Id = ce.EmployeeId";
                     SqlDataReader reader = cmd.ExecuteReader();
 

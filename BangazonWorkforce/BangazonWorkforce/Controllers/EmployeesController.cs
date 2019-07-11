@@ -170,24 +170,68 @@ namespace BangazonWorkforce.Controllers
         // GET: Employees/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            EmployeeEditViewModel employeeEditViewModel = new EmployeeEditViewModel(id, _config.GetConnectionString("DefaultConnection"));
+
+           Employee employee = GetEmployeeById(id);
+
+            employeeEditViewModel.Employee = employee;
+
+            return View(employeeEditViewModel);
         }
 
         // POST: Employees/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, EmployeeEditViewModel viewmodel)
         {
-            try
-            {
-                // TODO: Add update logic here
+           
+                string sql = @"UPDATE Employee 
+                               SET FirstName = @FirstName, 
+                                   LastName = @LastName, 
+                                   DepartmentId = @DepartmentId
+                               WHERE Id = @Id;";
+                if (viewmodel.ComputerId != 0 && viewmodel.ComputerId != null)
+                {
+                    sql = $@"{sql}
+                            UPDATE ComputerEmployee
+                            SET UnassignDate = @AssignDate
+                            WHERE EmployeeId = @Id AND UnassignDate IS NULL
+                            INSERT INTO ComputerEmployee
+                            (ComputerId, EmployeeId, AssignDate)
+                            VALUES
+                            (@ComputerId, @Id, @AssignDate)";
+                }
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+
+                // TODO: Add update logic here
+                using (SqlConnection conn = Connection)
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = sql;
+
+                        cmd.Parameters.Add(new SqlParameter("@FirstName", viewmodel.Employee.FirstName));
+                        cmd.Parameters.Add(new SqlParameter("@LastName", viewmodel.Employee.LastName));
+                        cmd.Parameters.Add(new SqlParameter("@DepartmentId", viewmodel.Employee.DepartmentId));
+                        cmd.Parameters.Add(new SqlParameter("@Id", id));
+
+                        if (viewmodel.ComputerId != 0 && viewmodel.ComputerId != null)
+                        {
+                            cmd.Parameters.Add(new SqlParameter("@ComputerId", viewmodel.ComputerId));
+                            cmd.Parameters.Add(new SqlParameter("@AssignDate", DateTime.Now));
+
+                        }
+
+                        cmd.ExecuteNonQuery();
+
+                        return RedirectToAction(nameof(Index));
+
+
+                    }
+                }
+            
+          
         }
 
         // GET: Employees/Delete/5
