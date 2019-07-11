@@ -1,4 +1,7 @@
-﻿@model BangazonWorkforce.Models.ViewModels.TrainingProgramDetailsViewModel
+﻿@*Author: Chris Morgan
+    The Training Program Index view is responsible for displaying all the information about the training program that the user has selected to view*@
+
+@model BangazonWorkforce.Models.ViewModels.TrainingProgramDetailsViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -7,7 +10,7 @@
 <h1>Details</h1>
 
 <div>
-    <h4>Training Program</h4>
+    <h4>Training Program Details</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -46,7 +49,7 @@
     <h4>Employees Attending Training Program</h4>
     <hr />
     <dl class="row">
-
+        @*The details view lists all the employees currently assigned to the training program*@
         @foreach (var employee in Model.Employees)
         {
 
@@ -73,11 +76,12 @@
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => employee.IsSupervisor)
+                <hr />
             </dd>
         }
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new {  id = Model.TrainingProgram.Id }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.TrainingProgram.Id }) |
     <a asp-action="Index">Back to List</a>
 </div>

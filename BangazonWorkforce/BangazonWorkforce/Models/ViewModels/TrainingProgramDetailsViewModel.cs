@@ -23,6 +23,8 @@ namespace BangazonWorkforce.Models.ViewModels
             }
         }
 
+        
+
         // The Employees property represents a List of employees who are currently signed up for the training program.
         public List<Employee> Employees { get; set; }
 
