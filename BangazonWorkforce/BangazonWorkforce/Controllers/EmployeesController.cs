@@ -143,11 +143,20 @@ namespace BangazonWorkforce.Controllers
         // POST: Employees/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, EmployeeEditViewModel collection)
         {
             try
             {
                 // TODO: Add update logic here
+                using(SqlConnection conn = Connection)
+                {
+                    conn.Open();
+                    using(SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = @"INSERT INTO Employee (FirstName, LastName, DepartmentId, I
+"
+                    }
+                }
 
                 return RedirectToAction(nameof(Index));
             }

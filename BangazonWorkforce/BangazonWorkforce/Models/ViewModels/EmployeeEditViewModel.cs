@@ -34,6 +34,7 @@ namespace BangazonWorkforce.Models.ViewModels
         {
             _connectionString = connectionString;
             Departments = GetAllDepartments().Select(d => new SelectListItem(d.Name, d.Id.ToString())).ToList();
+            Computers = GetAvailableComputers().Select(c => new SelectListItem(c.Make, c.Id.ToString())).ToList();
         }
 
 
@@ -72,6 +73,50 @@ namespace BangazonWorkforce.Models.ViewModels
             }
 
         }
-        
+
+        private List<Computer> GetAvailableComputers()
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+
+                    cmd.CommandText = @"SELECT c.Id, c.Make, c.Manufacturer, c.PurchaseDate, c.DecomissionDate
+                                        FROM Computer c
+                                        LEFT JOIN ComputerEmployee ce ON c.id = ce.ComputerId
+                                        AND ce.UnassignDate IS NULL
+                                        WHERE DecomissionDate IS NULL
+                                        AND AssignDate IS NULL; ";
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    List<Computer> comps = new List<Computer>();
+                    while (reader.Read())
+                    {
+                        comps.Add(new Computer
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Make = reader.GetString(reader.GetOrdinal("Make")),
+                            Manufacturer = reader.GetString(reader.GetOrdinal("Manufacturer")),
+                            PurchaseDate = reader.GetDateTime(reader.GetOrdinal("PurchaseDate")),
+                            DecomissionDate = reader.GetDateTime(reader.GetOrdinal("DecomissionDate"))
+
+                        });
+                    }
+
+                    reader.Close();
+
+                    return comps;
+
+
+
+
+                }
+            }
+
+        }
+
     }
 }
