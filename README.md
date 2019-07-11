@@ -1,4 +1,4 @@
-# Project Title
+# Bangazon Workforce Management Site
 
 Welcome to the Bangazon Workforce internal application for our human resources and IT departments. The application will allow them to create, list, and view Employees, Training Programs, Departments, and Computers.
 
