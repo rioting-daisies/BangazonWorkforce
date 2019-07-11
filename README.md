@@ -1,15 +1,48 @@
 # Bangazon Workforce Management Site
 
-Your team is reponsible for building an internal application for our human resources and IT departments. The application will allow them to create, list, and view Employees, Training Programs, Departments, and Computers.
+Welcome to the Bangazon Workforce internal application for our human resources and IT departments. The application will allow them to create, list, and view Employees, Training Programs, Departments, and Computers.
 
-You will be building an ASP.NET Web Application using Visual Studio on Windows, using SQL Server as the database engine. You will be learning the Razor templating syntax. You will be learning how to use view models for defining the data to be used in a Razor template. You will also be learning the concept of integration testing. Your tests will perform GET and POST requests to your application and verify that each view works as expected.
+## Getting Started
 
-## Setup
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
-1. Clone the repository
-1. Copy `BangazonWorkforce/BangazonWorkforce/appsettings.json.example` as `BangazonWorkforce/BangazonWorkforce/appsettings.json`
-1. Copy `BangazonWorkforce/BangazonWorkforce.IntegrationTests/Config.cs.example` as `BangazonWorkforce/BangazonWorkforce.IntegrationTests/Config.cs`
+### Prerequisites
 
-Open both of those files and put in the SQL Server connection strings in the placeholder.
+What things you need to install the software
 
-After that, you're ready to start coding.
+1. A computer
+1. A brain
+1. Visual Studio
+1. Azure Data Studio
+
+
+### Installing
+
+A step by step series of examples that tell you how to get a development env running
+
+1. Make sure your computer is turned on, if not, power it on by hitting the power button. (If you have trouble, contact the IT department)
+1. Make yourself a cup of coffee to ensure the highest level of focus (don't spill it on your computer, if you do, PANIC and contact IT department)
+1. Open up git bash / terminal and clone down the repository onto your local machine
+1. Count to 10 and spin around your chair 3 times before you get to 10 (very important)
+1. Open the BangazonWorkforce directory in Visual Studio
+1. Locate the BangazonAPI.sql file in the project
+1. Copy and paste the contents into a new query in Azure Data Studio and run the query
+1. While you're waiting, make yourself another cup of coffee and pat yourself on the back for being such a good developer
+1. Refresh the databases on the explorer to ensure that the database was created
+1. Head back on over to Visual Studio and Run the application (make sure the BangazonWorkforce server is selected)
+1. Once the application runs, you should now see the application launch in your browser.
+1. Click around and add stuff, edit stuff, delete stuff, and read stuff
+
+
+
+## Authors
+
+* **CBM Clifton Bradford Matuszewski**
+* **CBM2 Christopher Blue Morgan**
+* **Brian Jobe**
+* **Josh Hibray (Hibary?)**
+
+## Acknowledgments
+
+* Hat tip to Andy and Leah for all their help and laughter throughout the sprint
+* Hat tip to that AAA Guy who unlocked Clif's car, that was tight
