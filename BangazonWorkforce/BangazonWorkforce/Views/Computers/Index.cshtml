@@ -1,6 +1,6 @@
 ﻿@*Author: Brian Jobe. Computer Index View*@
 
-@model IEnumerable<BangazonWorkforce.Models.Computer>
+@model IEnumerable<BangazonWorkforce.Models.ViewModels.ComputerIndexViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -11,32 +11,47 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<hr />
+@using (Html.BeginForm())
+{
+<p>
+    Find by name: @Html.TextBox("SearchString")
+    <input type="submit" value="Search" />
+</p>
+}
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Make)
+                @Html.DisplayNameFor(model => model.Computer.Make)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Manufacturer)
+                @Html.DisplayNameFor(model => model.Computer.Manufacturer)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Employee.GetEmployeeName)
+            </th>
+
             <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Make)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Manufacturer)
-                </td>
-                <td>
-                    @Html.ActionLink("Details", "Details", new { id = item.Id })
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Computer.Make)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Computer.Manufacturer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Employee.GetEmployeeName)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.Computer.Id })
+            </td>
+        </tr>
         }
     </tbody>
 </table>

@@ -21,6 +21,14 @@ namespace BangazonWorkforce.Models
         [Display(Name = "Is Supervisor?")]
         public bool IsSupervisor { get; set; }
 
+        [Display(Name = "Employee Name")]
+        public string GetEmployeeName
+        {
+            get {
+                return FirstName + " " + LastName;
+            }
+        }
+
         [Required(ErrorMessage = "Please select which department this employee is assigned to")]
         [Display(Name = "Department")]
         public string DepartmentName { get; set; }
@@ -28,7 +36,6 @@ namespace BangazonWorkforce.Models
         [Required(ErrorMessage = "Please select which department this employee is assigned to")]
         [Display(Name = "Department")]
         public int DepartmentId { get; set; }
-
 
         public Department Department { get; set; }
 
